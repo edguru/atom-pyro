@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,14 +30,14 @@ from traceback import format_exc
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import SUDOERS, USERBOT_PREFIX, app2, eor
+from wbb import DEVS , DEVS, USERBOT_PREFIX, app2, eor
 from wbb.core.sections import section
 from wbb.core.tasks import add_task, rm_task
 from wbb.utils.downloader import download
 
 
 @app2.on_message(
-    SUDOERS
+    DEVS
     & filters.command("download", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
@@ -109,7 +109,7 @@ async def download_func(_, message: Message):
 
 
 @app2.on_message(
-    SUDOERS
+    DEVS
     & filters.command("upload", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot

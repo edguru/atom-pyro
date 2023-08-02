@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +27,10 @@ from os import system as execute
 from pyrogram import enums, filters
 from pyrogram.types import Message
 
-from wbb import MONGO_URL, SUDOERS, app
+from wbb import MONGO_URL, DEVS, app
 
 
-@app.on_message(filters.command("backup") & SUDOERS)
+@app.on_message(filters.command("backup") & DEVS)
 async def backup(_, message: Message):
     if message.chat.type != enums.ChatType.PRIVATE:
         return await message.reply("This command can only be used in private")

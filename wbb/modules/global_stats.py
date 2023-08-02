@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait
 
-from wbb import BOT_ID, BOT_NAME, SUDOERS, USERBOT_NAME, app, app2
+from wbb import BOT_ID, BOT_NAME,SUDOERS , DEVS, USERBOT_NAME, app, app2
 from wbb.core.decorators.errors import capture_err
 from wbb.modules import ALL_MODULES
 from wbb.utils.dbfunctions import (
@@ -46,7 +46,7 @@ from wbb.utils.http import get
 from wbb.utils.inlinefuncs import keywords_list
 
 
-@app.on_message(filters.command("clean_db") & SUDOERS)
+@app.on_message(filters.command("clean_db") & DEVS)
 @capture_err
 async def clean_db(_, message):
     served_chats = [int(i["chat_id"]) for i in (await get_served_chats())]
@@ -117,15 +117,6 @@ async def global_stats(_, message):
     karmas_count = _karmas["karmas_count"]
     karmas_chats_count = _karmas["chats_count"]
 
-    # Contributors/Developers count and commits on github
-    url = "https://api.github.com/repos/thehamkercat/williambutcherbot/contributors"
-    rurl = "https://github.com/thehamkercat/williambutcherbot"
-    developers = await get(url)
-    commits = 0
-    for developer in developers:
-        commits += developer["contributions"]
-    developers = len(developers)
-
     # Rss feeds
     rss_count = await get_rss_feeds_count()
     # Modules info
@@ -159,7 +150,6 @@ async def global_stats(_, message):
     **{karmas_count}** Karma, Across **{karmas_chats_count}** chats.
     **{served_users}** Users, Across **{served_chats}** chats.
     **{total_users}** Total users in chats.
-    **{developers}** Developers And **{commits}** Commits On **[Github]({rurl})**.
 
 **Global Stats of {USERBOT_NAME}**:
     **{total_ub} Dialogs.**

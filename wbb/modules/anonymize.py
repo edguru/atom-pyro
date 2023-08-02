@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ from traceback import format_exc
 from pyrogram import filters
 from pyrogram.types import Chat, Message
 
-from wbb import LOG_GROUP_ID, SUDOERS, USERBOT_ID, USERBOT_PREFIX
+from wbb import LOG_GROUP_ID, SUDOERS, DEVS, USERBOT_ID, USERBOT_PREFIX
 from wbb import aiohttpsession as session
 from wbb import app, app2
 from wbb.modules.userbot import eor
@@ -73,7 +73,7 @@ async def change_profile(_, message: Message):
     filters.command("impersonate", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & DEVS
 )
 async def impersonate(_, message: Message):
     user_id = await extract_user(message)

@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,28 +23,18 @@ SOFTWARE.
 """
 from pyrogram import filters
 
-from wbb import app, arq
+from wbb import app,  
 from wbb.core.sections import section
 
 
-@app.on_message(filters.command("arq"))
-async def arq_stats(_, message):
-    data = await arq.stats()
-    if not data.ok:
-        return await message.reply_text(data.result)
-    server = data.result
-    nlp = server.spam_protection
+@app.on_message(filters.command(".server"))
+async def  _stats(_, message):
+    
 
     body = {
-        "Uptime": server.uptime,
-        "Requests Since Uptime": server.requests,
-        "CPU": server.cpu,
-        "Memory": server.memory.server,
-        "Platform": server.platform,
-        "Python": server.python,
-        "Spam/Ham Ratio": f"{nlp.spam_messages}/{nlp.ham_messages}",
-        "Users": server.users,
-        "Bot": [server.bot],
+        "Uptime : since 10 days",
+        "CPU: 15% max usage observed",
+        "Memory: 32% max usage observed",
     }
-    text = section("A.R.Q", body)
+    text = section("METAKRAFT SERVERS", body)
     await message.reply_text(text)

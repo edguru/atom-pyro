@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ from pyrogram.types import (
     Message,
 )
 
-from wbb import BOT_ID, SUDOERS, app, log
+from wbb import BOT_ID, SUDOERS, DEVS, app, log
 from wbb.core.decorators.errors import capture_err
 from wbb.core.keyboard import ikb
 from wbb.utils.dbfunctions import (
@@ -146,7 +146,7 @@ async def admin_cache_func(_, cmu: ChatMemberUpdated):
                 )
             ],
         }
-        log.info(f"Updated admin cache for {cmu.chat.id} [{cmu.chat.title}]")
+        log.info(f"Updated admin list for {cmu.chat.id} [{cmu.chat.title}]")
 
 
 # Purge Messages
@@ -212,10 +212,10 @@ async def kickFunc(_, message: Message):
             "I can't kick myself, i can leave if you want."
         )
     if user_id in SUDOERS:
-        return await message.reply_text("You Wanna Kick The Elevated One?")
+        return await message.reply_text("You Wanna Kick THE GOTEI13?")
     if user_id in (await list_admins(message.chat.id)):
         return await message.reply_text(
-            "I can't kick an admin, You know the rules, so do i."
+            "Kicking Admins Is Against Common Sense"
         )
     mention = (await app.get_users(user_id)).mention
     msg = f"""
@@ -242,15 +242,15 @@ async def banFunc(_, message: Message):
         return await message.reply_text("I can't find that user.")
     if user_id == BOT_ID:
         return await message.reply_text(
-            "I can't ban myself, i can leave if you want."
+            "I can't ban myself, I caan leave if you ask politely"
         )
     if user_id in SUDOERS:
         return await message.reply_text(
-            "You Wanna Ban The Elevated One?, RECONSIDER!"
+            "You Wanna Ban THE GOTEI13?, You are too naive!!"
         )
     if user_id in (await list_admins(message.chat.id)):
         return await message.reply_text(
-            "I can't ban an admin, You know the rules, so do i."
+            "Banning admins Is Against Common Sense."
         )
 
     try:
@@ -346,7 +346,7 @@ async def list_ban_(c, message: Message):
         return await message.reply_text("I can't ban myself.")
     if userid in SUDOERS:
         return await message.reply_text(
-            "You Wanna Ban The Elevated One?, RECONSIDER!"
+            "You Wanna Ban The GOTEI13, TOO naive"
         )
     splitted = messagelink.split("/")
     uname, mid = splitted[-2], int(splitted[-1])
@@ -505,7 +505,7 @@ async def demote(_, message: Message):
         return await message.reply_text("I can't demote myself.")
     if user_id in SUDOERS:
         return await message.reply_text(
-            "You wanna demote the elevated one?, RECONSIDER!"
+            "You wanna demote the GOTEI 13! Too Naive"
         )
     await message.chat.promote_member(
         user_id=user_id,
@@ -562,7 +562,7 @@ async def mute(_, message: Message):
         return await message.reply_text("I can't mute myself.")
     if user_id in SUDOERS:
         return await message.reply_text(
-            "You wanna mute the elevated one?, RECONSIDER!"
+            "You wanna mute The GOTEI13, TOO naive"
         )
     if user_id in (await list_admins(message.chat.id)):
         return await message.reply_text(
@@ -624,7 +624,7 @@ async def ban_deleted_accounts(_, message: Message):
     chat_id = message.chat.id
     deleted_users = []
     banned_users = 0
-    m = await message.reply("Finding ghosts...")
+    m = await message.reply("Finding zombies...")
 
     async for i in app.get_chat_members(chat_id):
         if i.user.is_deleted:
@@ -654,7 +654,7 @@ async def warn_user(_, message: Message):
         )
     if user_id in SUDOERS:
         return await message.reply_text(
-            "You Wanna Warn The Elevated One?, RECONSIDER!"
+            "You Wanna Warn The GOTEI13, TOO naive"
         )
     if user_id in (await list_admins(chat_id)):
         return await message.reply_text(

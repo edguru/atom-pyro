@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ from pyrogram.errors import (
 )
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from wbb import BOT_USERNAME, SUDOERS, USERBOT_PREFIX, app, app2, eor
+from wbb import BOT_USERNAME, SUDOERS, DEVS, USERBOT_PREFIX, app, app2, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils.files import (
     get_document_from_file_id,
@@ -109,7 +109,7 @@ async def sticker_image(_, message: Message):
     filters.command("kang", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS,
+    & DEVS,
 )
 async def userbot_kang(_, message: Message):
     reply = message.reply_to_message

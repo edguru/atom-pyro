@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ from wbb.modules.userbot import eor
 
 
 @app2.on_message(
-    SUDOERS
+    DEVS
     & ~filters.forwarded
     & ~filters.via_bot
     & filters.command("create", prefixes=USERBOT_PREFIX)

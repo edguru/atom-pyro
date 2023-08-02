@@ -1,5 +1,5 @@
 <h1 align="center"> 
-    ✨ WilliamButcherBot ✨ 
+    ✨atom-pyro ✨ 
 </h1>
 
 <h3 align="center"> 
@@ -13,13 +13,13 @@
     <a href="https://GitHub.com/edguru">
         <img src="http://ForTheBadge.com/images/badges/built-with-love.svg" alt="built-with-love">
     </a> <br>
-    <img src="https://img.shields.io/github/license/edguru/WilliamButcherBot?style=for-the-badge&logo=appveyor" alt="LICENSE">
-    <img src="https://img.shields.io/github/contributors/edguru/WilliamButcherBot?style=for-the-badge&logo=appveyor" alt="Contributors">
-    <img src="https://img.shields.io/github/repo-size/edguru/WilliamButcherBot?style=for-the-badge&logo=appveyor" alt="Repository Size"> <br>
+    <img src="https://img.shields.io/github/license/edguru/atom-pyro?style=for-the-badge&logo=appveyor" alt="LICENSE">
+    <img src="https://img.shields.io/github/contributors/edguru/atom-pyro?style=for-the-badge&logo=appveyor" alt="Contributors">
+    <img src="https://img.shields.io/github/repo-size/edguru/atom-pyro?style=for-the-badge&logo=appveyor" alt="Repository Size"> <br>
     <img src="https://img.shields.io/badge/python-3.9-green?style=for-the-badge&logo=appveyor" alt="Python Version">
-    <img src="https://img.shields.io/github/issues/edguru/WilliamButcherBot?style=for-the-badge&logo=appveyor" alt="Issues">
-    <img src="https://img.shields.io/github/forks/edguru/WilliamButcherBot?style=for-the-badge&logo=appveyor" alt="Forks">
-    <img src="https://img.shields.io/github/stars/edguru/WilliamButcherBot?style=for-the-badge&logo=appveyor" alt="Stars">
+    <img src="https://img.shields.io/github/issues/edguru/atom-pyro?style=for-the-badge&logo=appveyor" alt="Issues">
+    <img src="https://img.shields.io/github/forks/edguru/atom-pyro?style=for-the-badge&logo=appveyor" alt="Forks">
+    <img src="https://img.shields.io/github/stars/edguru/atom-pyro?style=for-the-badge&logo=appveyor" alt="Stars">
 </p>
 
 <h3 align="center"> 
@@ -28,7 +28,7 @@
 
 <p align="center">
     A Support Group and ready-to-use running instance of this bot can be found on Telegram <br>
-    <a href="https://t.me/WilliamButcherBot"> WilliamButcherBot </a> | 
+    <a href="https://t.me/atom-pyro"> atom-pyro </a> | 
     <a href="https://t.me/wbbsupport"> WbbSupport </a>
 </p>
 
@@ -48,8 +48,8 @@
 </h2>
 
 ```console
-edguru@arch:~$ git clone https://github.com/edguru/WilliamButcherBot
-edguru@arch:~$ cd WilliamButcherBot
+edguru@arch:~$ git clone https://github.com/edguru/atom-pyro
+edguru@arch:~$ cd atom-pyro
 edguru@arch:~$ pip3 install -U -r requirements.txt
 edguru@arch:~$ cp sample_config.py config.py
 ```
@@ -71,8 +71,8 @@ edguru@arch:~$ python3 -m wbb
 </h3>
 
 ```console
-edguru@arch:~$ git clone https://github.com/edguru/WilliamButcherBot
-edguru@arch:~$ cd WilliamButcherBot
+edguru@arch:~$ git clone https://github.com/edguru/atom-pyro
+edguru@arch:~$ cd atom-pyro
 edguru@arch:~$ pip3 install pyrogram TgCrypto
 edguru@arch:~$ python3 str_gen.py
 ```
@@ -82,8 +82,8 @@ edguru@arch:~$ python3 str_gen.py
 </h1>
 
 ```console
-edguru@arch:~$ git clone https://github.com/edguru/WilliamButcherBot
-edguru@arch:~$ cd WilliamButcherBot
+edguru@arch:~$ git clone https://github.com/edguru/atom-pyro
+edguru@arch:~$ cd atom-pyro
 edguru@arch:~$ cp sample_config.env config.env
 ```
 

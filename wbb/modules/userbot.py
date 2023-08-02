@@ -19,7 +19,7 @@ from pyrogram.errors import MessageNotModified
 from pyrogram.types import Message, ReplyKeyboardMarkup
 
 from wbb import app2  # don't remove
-from wbb import SUDOERS, USERBOT_PREFIX, eor
+from wbb import SUDOERS , DEVS, USERBOT_PREFIX, eor
 from wbb.core.tasks import add_task, rm_task
 
 # Eval and Sh module from nana-remix
@@ -59,7 +59,7 @@ async def iter_edit(message: Message, text: str):
 
 
 @app2.on_message(
-    SUDOERS
+    DEVS
     & ~filters.forwarded
     & ~filters.via_bot
     & filters.command("eval", prefixes=USERBOT_PREFIX)
@@ -151,7 +151,7 @@ async def executor(client, message: Message):
 
 
 @app2.on_message(
-    SUDOERS
+    DEVS
     & ~filters.forwarded
     & ~filters.via_bot
     & filters.command("sh", prefixes=USERBOT_PREFIX),
@@ -235,7 +235,7 @@ async def shellrunner(_, message: Message):
     filters.command("reserve", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & DEVS
 )
 async def reserve_channel_handler(_, message: Message):
     if len(message.text.split()) != 2:

@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@ SOFTWARE.
 
 from pyrogram import filters
 
-from wbb import BOT_ID, SUDOERS, USERBOT_PREFIX, app2
+from wbb import BOT_ID, SUDOERS, DEVS , USERBOT_PREFIX, app2
 
 
 @app2.on_message(

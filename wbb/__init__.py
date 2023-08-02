@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyromod import listen
-from Python_ARQ import ARQ
+
 from telegraph import Telegraph
 
 is_config = path.exists("config.py")
@@ -48,10 +48,10 @@ LOG_GROUP_ID = LOG_GROUP_ID
 MESSAGE_DUMP_CHAT = MESSAGE_DUMP_CHAT
 MOD_LOAD = []
 MOD_NOLOAD = []
-SUDOERS = filters.user()
+SUDOERS = SUDO_USERS_ID
 bot_start_time = time.time()
-
-
+DEVS = DEV_USERS_ID
+SUDOERS = SUDOERS + DEVS
 class Log:
     def __init__(self, save_to_file=False, file_name="wbb.log"):
         self.save_to_file = save_to_file
@@ -115,7 +115,7 @@ else:
 
 aiohttpsession = ClientSession()
 
-arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
+
 
 app = Client("wbb", bot_token=BOT_TOKEN, api_id=API_ID, api_hash=API_HASH)
 

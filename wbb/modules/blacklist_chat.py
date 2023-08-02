@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import SUDOERS, app
+from wbb import SUDOERS, DEVS, app
 from wbb.core.decorators.errors import capture_err
 from wbb.utils.dbfunctions import blacklist_chat, blacklisted_chats, whitelist_chat
 

@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ SOFTWARE.
 from pyrogram import filters
 from pyrogram.raw.functions.messages import DeleteHistory
 
-from wbb import BOT_ID, PM_PERMIT, SUDOERS, USERBOT_ID, USERBOT_PREFIX, app, app2, eor
+from wbb import BOT_ID, PM_PERMIT, DEVS, USERBOT_ID, USERBOT_PREFIX, app, app2, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils.dbfunctions import (
     approve_pmpermit,
@@ -70,7 +70,7 @@ async def pmpermit_func(_, message):
 
 @app2.on_message(
     filters.command("approve", prefixes=USERBOT_PREFIX)
-    & SUDOERS 
+    & DEVS 
     & ~filters.via_bot
     & ~filters.forwarded
 )
@@ -87,7 +87,7 @@ async def pm_approve(_, message):
 
 @app2.on_message(
     filters.command("disapprove", prefixes=USERBOT_PREFIX)
-    & SUDOERS 
+    & DEVS 
     & ~filters.via_bot
     & ~filters.forwarded
 )
@@ -110,7 +110,7 @@ async def pm_disapprove(_, message):
 
 @app2.on_message(
     filters.command("block", prefixes=USERBOT_PREFIX)
-    & SUDOERS
+    & DEVS
     & ~filters.via_bot
     & ~filters.forwarded
 )
@@ -126,7 +126,7 @@ async def block_user_func(_, message):
 
 @app2.on_message(
     filters.command("unblock", prefixes=USERBOT_PREFIX)
-    & SUDOERS 
+    & DEVS 
     & ~filters.via_bot
     & ~filters.forwarded
 )

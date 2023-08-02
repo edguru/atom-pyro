@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ __HELP__ = "/repo - To Get My Github Repository Link " "And Support Group Link"
 @capture_err
 async def repo(_, message):
     users = await get(
-        "https://api.github.com/repos/thehamkercat/williambutcherbot/contributors"
+        "https://api.github.com/repos/atom-pyro/atom-pyro/contributors"
     )
     list_of_users = ""
     count = 1
@@ -43,7 +43,7 @@ async def repo(_, message):
         list_of_users += f"**{count}.** [{user['login']}]({user['html_url']})\n"
         count += 1
 
-    text = f"""[Github](https://github.com/thehamkercat/WilliamButcherBot) | [Group](t.me/PatheticProgrammers)
+    text = f"""[Github](https://github.com/atom-pyro/atom-pyro) | [Group](t.me/PatheticProgrammers)
 ```----------------
 | Contributors |
 ----------------```

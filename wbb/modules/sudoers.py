@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -82,8 +82,7 @@ async def bot_sys_stats():
     disk = psutil.disk_usage("/").percent
     process = psutil.Process(os.getpid())
     stats = f"""
-{USERBOT_USERNAME}@William
-------------------
+[WITH LOVE BY METAKRAFT](https://t.me/metakraftdiscussions)
 UPTIME: {formatter.get_readable_time(bot_uptime)}
 BOT: {round(process.memory_info()[0] / 1024 ** 2)} MB
 CPU: {cpu}%
@@ -182,7 +181,7 @@ async def unban_globally(_, message):
 # Broadcast
 
 
-@app.on_message(filters.command("broadcast") & SUDOERS)
+@app.on_message(filters.command("broadcast") & DEVS)
 @capture_err
 async def broadcast_message(_, message):
     sleep_time = 0.1
@@ -217,20 +216,9 @@ async def broadcast_message(_, message):
 # Update
 
 
-@app.on_message(filters.command("update") & SUDOERS)
-async def update_restart(_, message):
-    try:
-        out = subprocess.check_output(["git", "pull"]).decode("UTF-8")
-        if "Already up to date." in str(out):
-            return await message.reply_text("Its already up-to date!")
-        await message.reply_text(f"```{out}```")
-    except Exception as e:
-        return await message.reply_text(str(e))
-    m = await message.reply_text("**Updated with default branch, restarting now.**")
-    await restart(m)
 
 
-@app.on_message(filters.command("ubroadcast") & SUDOERS)
+@app.on_message(filters.command("ubroadcast") & DEVS)
 @capture_err
 async def broadcast_message(_, message):
     sleep_time = 0.1

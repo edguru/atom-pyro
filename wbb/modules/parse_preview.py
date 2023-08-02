@@ -3,7 +3,7 @@ from asyncio import sleep
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import SUDOERS, USERBOT_PREFIX, app2, eor
+from wbb import SUDOERS , DEVS, USERBOT_PREFIX, app2, eor
 from wbb.core.sections import section
 
 

@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2023 TheHamkerCat
+Copyright (c) 2023 atom-pyro
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ import asyncio
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import BOT_ID, SUDOERS, USERBOT_ID, app, app2
+from wbb import BOT_ID, SUDOERS, DEVS USERBOT_ID, app, app2
 from wbb.core.decorators.errors import capture_err
 
 __MODULE__ = "Pipes"
@@ -93,7 +93,7 @@ async def pipes_worker_userbot(_, message: Message):
         await app.send_message(to_chat_id, text=message.text + caption)
 
 
-@app.on_message(filters.command("activate_pipe") & SUDOERS)
+@app.on_message(filters.command("activate_pipe") & DEVS)
 @capture_err
 async def activate_pipe_func(_, message: Message):
     global pipes_list_bot, pipes_list_userbot
@@ -123,7 +123,7 @@ async def activate_pipe_func(_, message: Message):
     await message.reply_text("Activated pipe.")
 
 
-@app.on_message(filters.command("deactivate_pipe") & SUDOERS)
+@app.on_message(filters.command("deactivate_pipe") & DEVS)
 @capture_err
 async def deactivate_pipe_func(_, message: Message):
     global pipes_list_bot, pipes_list_userbot
@@ -145,7 +145,7 @@ async def deactivate_pipe_func(_, message: Message):
     await message.reply_text("Deactivated pipe.")
 
 
-@app.on_message(filters.command("pipes") & SUDOERS)
+@app.on_message(filters.command("pipes") & DEVS)
 @capture_err
 async def show_pipes_func(_, message: Message):
     pipes_list_bot.update(pipes_list_userbot)
