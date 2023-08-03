@@ -33,6 +33,7 @@ from uvloop import install
 
 from wbb import (
     BOT_NAME,
+    SUPPORT,
     BOT_USERNAME,
     LOG_GROUP_ID,
     USERBOT_NAME,
@@ -72,7 +73,7 @@ async def start_bot():
             bot_modules += "|{:<15}".format(i)
         j += 1
     print("+===============================================================+")
-    print("|                              WBB                              |")
+    print("|                           METAKRAFT                           |")
     print("+===============+===============+===============+===============+")
     print(bot_modules)
     print("+===============+===============+===============+===============+")
@@ -116,13 +117,14 @@ home_keyboard_pm = InlineKeyboardMarkup(
                 text="Server info",
                 callback_data="stats_callback",
             ),
-            InlineKeyboardButton(text="Support join here", url="http://t.me/Atom_support"),
+            InlineKeyboardButton(text="Support join here", url=f"http://t.me/{SUPPORT}"),
         ],
         [
             InlineKeyboardButton(
                 text="Add Me To Your Group 🎉",
                 url=f"http://t.me/{BOT_USERNAME}?startgroup=new",
             )
+            InlineKeyboardButton(text="Sponsored by ❤️", url="https://t.me/metakraftdiscussions"),
         ],
     ]
 )
@@ -141,8 +143,8 @@ keyboard = InlineKeyboardMarkup(
                 url=f"t.me/{BOT_USERNAME}?start=help",
             ),
             InlineKeyboardButton(
-                text="Repo 🛠",
-                url="https://github.com/atom-pyro/atom-pyro",
+                text="SPONSOREd WITH ❤️",
+                url="https://t.me/metakraftdiscussions",
             ),
         ],
         [
@@ -150,7 +152,7 @@ keyboard = InlineKeyboardMarkup(
                 text="System Stats 💻",
                 callback_data="stats_callback",
             ),
-            InlineKeyboardButton(text="Support 👨", url=""),
+            InlineKeyboardButton(text="Support 👨", url=f"http://t.me/{SUPPORT}"),
         ],
     ]
 )

