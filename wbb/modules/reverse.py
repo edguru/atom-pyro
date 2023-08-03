@@ -48,7 +48,7 @@ async def get_soup(url: str, headers):
     filters.command("reverse", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 @app.on_message(filters.command("reverse"))
 @capture_err

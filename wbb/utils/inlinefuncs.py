@@ -55,12 +55,11 @@ from wbb import (
     USERBOT_USERNAME,
     app,
     app2,
-     ,
+    DEVS
 )
 from wbb.core.keyboard import ikb
 from wbb.core.tasks import _get_tasks_text, all_tasks, rm_task
 from wbb.modules.info import get_chat_info, get_user_info
-from wbb.modules.music import download_youtube_audio
 from wbb.utils.functions import test_speedtest
 from wbb.utils.pastebin import paste
 
@@ -147,10 +146,6 @@ async def alive_function(answers):
         )
     )
     return answers
-
-
- return answers
-
 
 
 

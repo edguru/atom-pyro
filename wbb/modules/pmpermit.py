@@ -25,7 +25,7 @@ SOFTWARE.
 from pyrogram import filters
 from pyrogram.raw.functions.messages import DeleteHistory
 
-from wbb import BOT_ID, PM_PERMIT, DEVS, USERBOT_ID, USERBOT_PREFIX, app, app2, eor
+from wbb import BOT_ID, PM_PERMIT, DEVS, USERBOT_ID, USERBOT_PREFIX, app, app2, eor, SUDOERS
 from wbb.core.decorators.errors import capture_err
 from wbb.utils.dbfunctions import (
     approve_pmpermit,
@@ -43,7 +43,7 @@ flood = {}
     & ~filters.me
     & ~filters.bot
     & ~filters.via_bot
-    & ~SUDOERS
+    & ~filters.user(SUDOERS)
 )
 @capture_err
 async def pmpermit_func(_, message):
@@ -70,7 +70,7 @@ async def pmpermit_func(_, message):
 
 @app2.on_message(
     filters.command("approve", prefixes=USERBOT_PREFIX)
-    & DEVS 
+    & filters.user(DEVS) 
     & ~filters.via_bot
     & ~filters.forwarded
 )
@@ -87,7 +87,7 @@ async def pm_approve(_, message):
 
 @app2.on_message(
     filters.command("disapprove", prefixes=USERBOT_PREFIX)
-    & DEVS 
+    & filters.user(DEVS) 
     & ~filters.via_bot
     & ~filters.forwarded
 )
@@ -110,7 +110,7 @@ async def pm_disapprove(_, message):
 
 @app2.on_message(
     filters.command("block", prefixes=USERBOT_PREFIX)
-    & DEVS
+    & filters.user(DEVS)
     & ~filters.via_bot
     & ~filters.forwarded
 )
@@ -126,7 +126,7 @@ async def block_user_func(_, message):
 
 @app2.on_message(
     filters.command("unblock", prefixes=USERBOT_PREFIX)
-    & DEVS 
+    & filters.user(DEVS) 
     & ~filters.via_bot
     & ~filters.forwarded
 )

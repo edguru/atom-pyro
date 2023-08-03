@@ -30,7 +30,7 @@ from re import findall
 
 from pyrogram import enums, filters
 
-from wbb import SUDOERS , DEVS, USERBOT_PREFIX, app, app2,  , eor
+from wbb import SUDOERS , DEVS, USERBOT_PREFIX, app, app2, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils import random_line
 from wbb.utils.http import get
@@ -87,7 +87,7 @@ PING_LOCK = Lock()
 
 
 @app2.on_message(
-    DEVS
+    filters.user(DEVS)
     & filters.command("ping", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
@@ -146,7 +146,7 @@ async def runs(_, message):
     filters.command("id", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & DEVS
+    & filters.user(DEVS)
 )
 @app.on_message(filters.command("id"))
 async def getid(client, message):

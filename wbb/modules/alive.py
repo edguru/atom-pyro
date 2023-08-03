@@ -31,7 +31,7 @@ from wbb import BOT_ID, SUDOERS, DEVS , USERBOT_PREFIX, app2
     filters.command("alive", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 async def alive_command_func(_, message):
     await message.delete()

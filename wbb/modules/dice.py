@@ -12,7 +12,7 @@ __HELP__ = """
 
 @app2.on_message(
     filters.command("dice", prefixes=USERBOT_PREFIX)
-    & DEVS
+    & filters.user(DEVS)
     & ~filters.forwarded
     & ~filters.via_bot)
 @app.on_message(filters.command("dice"))

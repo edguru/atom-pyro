@@ -109,7 +109,7 @@ async def sticker_image(_, message: Message):
     filters.command("kang", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & DEVS,
+    & filters.user(DEVS),
 )
 async def userbot_kang(_, message: Message):
     reply = message.reply_to_message

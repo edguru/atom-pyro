@@ -24,12 +24,12 @@ SOFTWARE.
 
 from pyrogram import filters
 
-from wbb import BOT_USERNAME, SUDOERS, USERBOT_PREFIX, app2
+from wbb import BOT_USERNAME, SUDOERS, USERBOT_PREFIX, app2 ,DEVS
 from wbb.modules.userbot import eor
 
 
 @app2.on_message(
-    DEVS
+    filters.user(DEVS)
     & ~filters.forwarded
     & ~filters.via_bot
     & filters.command("create", prefixes=USERBOT_PREFIX)

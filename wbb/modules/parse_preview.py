@@ -11,7 +11,7 @@ from wbb.core.sections import section
     filters.command("parse_preview", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 async def parse(_, message: Message):
     r = message.reply_to_message

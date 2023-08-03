@@ -49,7 +49,7 @@ Checkout /markdownhelp to know more about formattings and other syntax.
     filters.command("save", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 @app.on_message(filters.command("save") & ~filters.private)
 @adminsOnly("can_change_info")
@@ -86,7 +86,7 @@ async def save_notee(_, message):
     filters.command("notes", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 @app.on_message(filters.command("notes") & ~filters.private)
 @capture_err
@@ -110,7 +110,7 @@ async def get_notes(_, message):
     filters.command("get", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 async def get_one_note_userbot(_, message):
     if len(message.text.split()) < 2:
@@ -162,7 +162,7 @@ async def get_one_note(_, message):
     filters.command("delete", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 @app.on_message(filters.command("delete") & ~filters.private)
 @adminsOnly("can_change_info")

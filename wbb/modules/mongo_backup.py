@@ -30,7 +30,7 @@ from pyrogram.types import Message
 from wbb import MONGO_URL, DEVS, app
 
 
-@app.on_message(filters.command("backup") & DEVS)
+@app.on_message(filters.command("backup") & filters.user(DEVS))
 async def backup(_, message: Message):
     if message.chat.type != enums.ChatType.PRIVATE:
         return await message.reply("This command can only be used in private")

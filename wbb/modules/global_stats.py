@@ -46,7 +46,7 @@ from wbb.utils.http import get
 from wbb.utils.inlinefuncs import keywords_list
 
 
-@app.on_message(filters.command("clean_db") & DEVS)
+@app.on_message(filters.command("clean_db") & filters.user(DEVS))
 @capture_err
 async def clean_db(_, message):
     served_chats = [int(i["chat_id"]) for i in (await get_served_chats())]
@@ -78,7 +78,7 @@ async def get_total_users_count():
     return total_count
 
 
-@app.on_message(filters.command("gstats") & SUDOERS)
+@app.on_message(filters.command("gstats") & filters.user(SUDOERS))
 @capture_err
 async def global_stats(_, message):
     m = await app.send_message(

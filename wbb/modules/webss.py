@@ -60,7 +60,7 @@ async def take_screenshot(url: str, full: bool = False):
     filters.command("webss", USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 @app.on_message(filters.command("webss"))
 @capture_err

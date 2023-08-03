@@ -82,7 +82,7 @@ async def _get_tasks_text():
 
 
 @app2.on_message(
-    DEVS
+    filters.user(DEVS)
     & ~filters.forwarded
     & ~filters.via_bot
     & filters.command("lsTasks", prefixes=USERBOT_PREFIX)

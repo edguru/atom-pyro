@@ -59,7 +59,7 @@ async def iter_edit(message: Message, text: str):
 
 
 @app2.on_message(
-    DEVS
+    filters.user(DEVS)
     & ~filters.forwarded
     & ~filters.via_bot
     & filters.command("eval", prefixes=USERBOT_PREFIX)
@@ -151,7 +151,7 @@ async def executor(client, message: Message):
 
 
 @app2.on_message(
-    DEVS
+    filters.user(DEVS)
     & ~filters.forwarded
     & ~filters.via_bot
     & filters.command("sh", prefixes=USERBOT_PREFIX),
@@ -235,7 +235,7 @@ async def shellrunner(_, message: Message):
     filters.command("reserve", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & DEVS
+    & filters.user(DEVS)
 )
 async def reserve_channel_handler(_, message: Message):
     if len(message.text.split()) != 2:

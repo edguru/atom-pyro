@@ -24,7 +24,7 @@ SOFTWARE.
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import BOT_ID, SUDOERS, DEVS USERBOT_PREFIX, app2, eor
+from wbb import BOT_ID, SUDOERS, DEVS ,USERBOT_PREFIX, app2, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils.dbfunctions import add_sudo, get_sudoers, remove_sudo
 
@@ -48,7 +48,7 @@ can even delete your account.
     filters.command("useradd", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & DEVS
+    & filters.user(DEVS)
 )
 @capture_err
 async def useradd(_, message: Message):
@@ -81,7 +81,7 @@ async def useradd(_, message: Message):
     filters.command("userdel", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & DEVS
+    & filters.user(DEVS)
 )
 @capture_err
 async def userdel(_, message: Message):
@@ -111,7 +111,7 @@ async def userdel(_, message: Message):
     filters.command("sudoers", prefixes=USERBOT_PREFIX)
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 @capture_err
 async def sudoers_list(_, message: Message):
