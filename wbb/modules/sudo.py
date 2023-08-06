@@ -69,7 +69,7 @@ async def useradd(_, message: Message):
     await add_sudo(user_id)
 
     if user_id not in SUDOERS:
-        SUDOERS.add(user_id)
+        SUDOERS.append(user_id)
 
     await eor(
         message,
