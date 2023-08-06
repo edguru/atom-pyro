@@ -41,7 +41,6 @@ if is_config:
 else:
     from config import *
 
-USERBOT_PREFIX = USERBOT_PREFIX
 GBAN_LOG_GROUP_ID = GBAN_LOG_GROUP_ID
 WELCOME_DELAY_KICK_SEC = WELCOME_DELAY_KICK_SEC
 LOG_GROUP_ID = LOG_GROUP_ID
@@ -50,6 +49,7 @@ MOD_LOAD = []
 MOD_NOLOAD = []
 SUPPORT = SUPPORT_GROUP
 SUDOERS = SUDO_USERS_ID
+OWNER_ID = OWNER_USER_ID
 print(SUDOERS)
 bot_start_time = time.time()
 print(DEV_USERS_ID)
@@ -105,17 +105,6 @@ async def load_sudoers():
 loop = asyncio.get_event_loop()
 loop.run_until_complete(load_sudoers())
 
-if not SESSION_STRING:
-    app2 = Client(
-        name="userbot",
-        api_id=API_ID,
-        api_hash=API_HASH,
-        phone_number=PHONE_NUMBER,
-    )
-else:
-    app2 = Client(
-        name="userbot", api_id=API_ID, api_hash=API_HASH, session_string=SESSION_STRING
-    )
 
 aiohttpsession = ClientSession()
 
@@ -125,12 +114,11 @@ app = Client("wbb", bot_token=BOT_TOKEN, api_id=API_ID, api_hash=API_HASH)
 
 log.info("Starting bot client")
 app.start()
-log.info("Starting userbot client")
-app2.start()
+
 
 log.info("Gathering profile info")
 x = app.get_me()
-y = app2.get_me()
+
 
 BOT_ID = x.id
 BOT_NAME = x.first_name + (x.last_name or "")
@@ -138,14 +126,6 @@ BOT_USERNAME = x.username
 BOT_MENTION = x.mention
 BOT_DC_ID = x.dc_id
 
-USERBOT_ID = y.id
-USERBOT_NAME = y.first_name + (y.last_name or "")
-USERBOT_USERNAME = y.username
-USERBOT_MENTION = y.mention
-USERBOT_DC_ID = y.dc_id
-
-if USERBOT_ID not in SUDOERS:
-    SUDOERS.add(USERBOT_ID)
 
 log.info("Initializing Telegraph client")
 telegraph = Telegraph(domain="graph.org")

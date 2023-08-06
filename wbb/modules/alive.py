@@ -24,18 +24,17 @@ SOFTWARE.
 
 from pyrogram import filters
 
-from wbb import BOT_ID, SUDOERS, DEVS , USERBOT_PREFIX, app2
+from wbb import BOT_ID, SUDOERS, DEVS ,app
 
-
-@app2.on_message(
-    filters.command("alive", prefixes=USERBOT_PREFIX)
+@ app.on_message(
+    filters.command("alive")
     & ~filters.forwarded
     & ~filters.via_bot
     & filters.user(SUDOERS)
 )
 async def alive_command_func(_, message):
     await message.delete()
-    results = await app2.get_inline_bot_results(BOT_ID, "alive")
-    await app2.send_inline_bot_result(
+    results = await  app.get_inline_bot_results(BOT_ID, "alive")
+    await  app.send_inline_bot_result(
         message.chat.id, results.query_id, results.results[0].id
     )

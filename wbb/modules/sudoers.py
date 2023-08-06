@@ -36,7 +36,6 @@ from wbb import (
     GBAN_LOG_GROUP_ID,
     SUDOERS,
     DEVS,
-    USERBOT_USERNAME,
     app,
     bot_start_time,
 )

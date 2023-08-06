@@ -30,15 +30,15 @@ from traceback import format_exc
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import DEVS , USERBOT_PREFIX, app2, eor
+from wbb import DEVS , eor
 from wbb.core.sections import section
 from wbb.core.tasks import add_task, rm_task
 from wbb.utils.downloader import download
 
 
-@app2.on_message(
+@app.on_message(
     filters.user(DEVS)
-    & filters.command("download", prefixes=USERBOT_PREFIX)
+    & filters.command("download")
     & ~filters.forwarded
     & ~filters.via_bot
 )
@@ -108,9 +108,9 @@ async def download_func(_, message: Message):
     await eor(m, text=section("Downloaded", body))
 
 
-@app2.on_message(
+@app.on_message(
     filters.user(DEVS)
-    & filters.command("upload", prefixes=USERBOT_PREFIX)
+    & filters.command("upload")
     & ~filters.forwarded
     & ~filters.via_bot
 )
