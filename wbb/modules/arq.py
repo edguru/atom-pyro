@@ -23,7 +23,7 @@ SOFTWARE.
 """
 from pyrogram import filters
 
-from wbb import app,  
+from wbb import app
 from wbb.core.sections import section
 
 

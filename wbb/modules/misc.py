@@ -30,7 +30,7 @@ from re import findall
 
 from pyrogram import enums, filters
 
-from wbb import SUDOERS , DEVS, USERBOT_PREFIX, app, app2,  , eor
+from wbb import SUDOERS , DEVS, app, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils import random_line
 from wbb.utils.http import get
@@ -86,12 +86,7 @@ __HELP__ = """
 PING_LOCK = Lock()
 
 
-@app2.on_message(
-    DEVS
-    & filters.command("ping", prefixes=USERBOT_PREFIX)
-    & ~filters.forwarded
-    & ~filters.via_bot
-)
+
 @app.on_message(filters.command("ping"))
 async def ping_handler(_, message):
     m = await eor(message, text="Pinging datacenters...")
@@ -142,12 +137,7 @@ async def runs(_, message):
     await message.reply_text((await random_line("wbb/utils/runs.txt")))
 
 
-@app2.on_message(
-    filters.command("id", prefixes=USERBOT_PREFIX)
-    & ~filters.forwarded
-    & ~filters.via_bot
-    & DEVS
-)
+
 @app.on_message(filters.command("id"))
 async def getid(client, message):
     chat = message.chat

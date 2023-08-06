@@ -35,7 +35,7 @@ from wbb import (
     BOT_ID,
     GBAN_LOG_GROUP_ID,
     SUDOERS,
-    USERBOT_USERNAME,
+    DEVS,
     app,
     bot_start_time,
 )
@@ -95,7 +95,7 @@ DISK: {disk}%
 # Gban
 
 
-@app.on_message(filters.command("gban") & SUDOERS)
+@app.on_message(filters.command("gban") & filters.user(SUDOERS))
 @capture_err
 async def ban_globally(_, message):
     user_id, reason = await extract_user_and_reason(message)
@@ -162,7 +162,7 @@ __**New Global Ban**__
 # Ungban
 
 
-@app.on_message(filters.command("ungban") & SUDOERS)
+@app.on_message(filters.command("ungban") & filters.user(SUDOERS))
 @capture_err
 async def unban_globally(_, message):
     user_id = await extract_user(message)
@@ -181,7 +181,7 @@ async def unban_globally(_, message):
 # Broadcast
 
 
-@app.on_message(filters.command("broadcast") & DEVS)
+@app.on_message(filters.command("broadcast") & filters.user(DEVS))
 @capture_err
 async def broadcast_message(_, message):
     sleep_time = 0.1
@@ -218,7 +218,7 @@ async def broadcast_message(_, message):
 
 
 
-@app.on_message(filters.command("ubroadcast") & DEVS)
+@app.on_message(filters.command("ubroadcast") & filters.user(DEVS))
 @capture_err
 async def broadcast_message(_, message):
     sleep_time = 0.1

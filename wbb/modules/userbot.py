@@ -18,8 +18,8 @@ from pyrogram.enums import ChatType
 from pyrogram.errors import MessageNotModified
 from pyrogram.types import Message, ReplyKeyboardMarkup
 
-from wbb import app2  # don't remove
-from wbb import SUDOERS , DEVS, USERBOT_PREFIX, eor
+from wbb import app  # don't remove
+from wbb import SUDOERS , DEVS, eor
 from wbb.core.tasks import add_task, rm_task
 
 # Eval and Sh module from nana-remix
@@ -39,7 +39,7 @@ async def aexec(code, client, message):
 
 
 async def iter_edit(message: Message, text: str):
-    async for m in app2.get_chat_history(message.chat.id):
+    async for m in app.get_chat_history(message.chat.id):
         # If no replies found, reply
         if m.id == message.id:
             return 0
@@ -58,11 +58,11 @@ async def iter_edit(message: Message, text: str):
                 return
 
 
-@app2.on_message(
-    DEVS
+@app.on_message(
+    filters.user(DEVS)
     & ~filters.forwarded
     & ~filters.via_bot
-    & filters.command("eval", prefixes=USERBOT_PREFIX)
+    & filters.command("eval")
 )
 async def executor(client, message: Message):
     global m, p, r
@@ -146,15 +146,15 @@ async def executor(client, message: Message):
             return await message.reply(final_output, quote=True)
         return
     if not status.from_user:
-        status = await app2.get_messages(status.chat.id, status.id)
+        status = await app.get_messages(status.chat.id, status.id)
     await eor(status, text=final_output, quote=True)
 
 
-@app2.on_message(
-    DEVS
+@app.on_message(
+    filters.user(DEVS)
     & ~filters.forwarded
     & ~filters.via_bot
-    & filters.command("sh", prefixes=USERBOT_PREFIX),
+    & filters.command("sh"),
 )
 async def shellrunner(_, message: Message):
     if len(message.command) < 2:
@@ -213,7 +213,7 @@ async def shellrunner(_, message: Message):
         if len(output) > 4096:
             with open("output.txt", "w+") as file:
                 file.write(output)
-            await app2.send_document(
+            await app.send_document(
                 message.chat.id,
                 "output.txt",
                 reply_to_message_id=message.id,
@@ -229,26 +229,3 @@ async def shellrunner(_, message: Message):
             message,
             text=f"**INPUT:**\n```{escape(text)}```\n\n**OUTPUT: **\n`No output`",
         )
-
-
-@app2.on_message(
-    filters.command("reserve", prefixes=USERBOT_PREFIX)
-    & ~filters.forwarded
-    & ~filters.via_bot
-    & DEVS
-)
-async def reserve_channel_handler(_, message: Message):
-    if len(message.text.split()) != 2:
-        return await eor(message, text="Pass a username as argument!!")
-
-    username = message.text.split(None, 1)[1].strip().replace("@", "")
-
-    m = await eor(message, text="Reserving...")
-
-    chat = await app2.create_channel(username, "Created by .reserve command")
-    try:
-        await app2.update_chat_username(chat.id, username)
-    except Exception as e:
-        await m.edit(f"Couldn't Reserve, Error: `{str(e)}`")
-        return await app2.delete_channel(chat.id)
-    await m.edit(f"Reserved @{username} Successfully")

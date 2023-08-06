@@ -28,7 +28,7 @@ from io import BytesIO
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import SUDOERS , DEVS, USERBOT_PREFIX, app, app2, eor
+from wbb import SUDOERS , DEVS, app, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils.http import post
 
@@ -56,12 +56,7 @@ async def take_screenshot(url: str, full: bool = False):
     return file
 
 
-@app2.on_message(
-    filters.command("webss", USERBOT_PREFIX)
-    & ~filters.forwarded
-    & ~filters.via_bot
-    & SUDOERS
-)
+
 @app.on_message(filters.command("webss"))
 @capture_err
 async def take_ss(_, message: Message):

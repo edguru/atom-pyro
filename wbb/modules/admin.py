@@ -320,7 +320,7 @@ async def unban_func(_, message: Message):
 # Ban users listed in a message
 
 
-@app.on_message(SUDOERS & filters.command("listban") & ~filters.private)
+@app.on_message(filters.user(SUDOERS) & filters.command("listban") & ~filters.private)
 async def list_ban_(c, message: Message):
     userid, msglink_reason = await extract_user_and_reason(message)
     if not userid or not msglink_reason:
@@ -384,7 +384,7 @@ async def list_ban_(c, message: Message):
 # Unban users listed in a message
 
 
-@app.on_message(SUDOERS & filters.command("listunban") & ~filters.private)
+@app.on_message(filters.user(SUDOERS) & filters.command("listunban") & ~filters.private)
 async def list_unban_(c, message: Message):
     userid, msglink = await extract_user_and_reason(message)
     if not userid or not msglink:

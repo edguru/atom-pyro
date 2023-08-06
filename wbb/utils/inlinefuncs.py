@@ -50,17 +50,12 @@ from wbb import (
     BOT_USERNAME,
     MESSAGE_DUMP_CHAT,
     SUDOERS,
-    USERBOT_ID,
-    USERBOT_NAME,
-    USERBOT_USERNAME,
     app,
-    app2,
-     ,
+    DEVS
 )
 from wbb.core.keyboard import ikb
 from wbb.core.tasks import _get_tasks_text, all_tasks, rm_task
 from wbb.modules.info import get_chat_info, get_user_info
-from wbb.modules.music import download_youtube_audio
 from wbb.utils.functions import test_speedtest
 from wbb.utils.pastebin import paste
 
@@ -119,21 +114,19 @@ async def inline_help_func(__HELP__):
 async def alive_function(answers):
     buttons = InlineKeyboard(row_width=2)
     bot_state = "Dead" if not await app.get_me() else "Alive"
-    ubot_state = "Dead" if not await app2.get_me() else "Alive"
     buttons.add(
         InlineKeyboardButton("Stats", callback_data="stats_callback"),
         InlineKeyboardButton("Go Inline!", switch_inline_query_current_chat=""),
     )
 
     msg = f"""
-**[William✨](https://github.com/atom-pyro/atom-pyro):**
+**[Atom](https://github.com/atom-pyro/atom-pyro):**
 **MainBot:** `{bot_state}`
-**UserBot:** `{ubot_state}`
 **Python:** `{pyver.split()[0]}`
 **Pyrogram:** `{pyrover}`
 **MongoDB:** `{mongover}`
 **Platform:** `{sys.platform}`
-**Profiles:** [BOT](t.me/{BOT_USERNAME}) | [UBOT](t.me/{USERBOT_USERNAME})
+**Profiles:** [BOT](t.me/{BOT_USERNAME})
 """
     answers.append(
         InlineQueryResultArticle(
@@ -147,10 +140,6 @@ async def alive_function(answers):
         )
     )
     return answers
-
-
- return answers
-
 
 
 
@@ -206,7 +195,7 @@ async def tg_search_func(answers, text, user_id):
 
         return answers
     text = text[0:-1]
-    async for message in app2.search_global(text, limit=49):
+    async for message in app.search_global(text, limit=49):
         buttons = InlineKeyboard(row_width=2)
         buttons.add(
             InlineKeyboardButton(
@@ -294,36 +283,7 @@ async def test_speedtest_cq(_, cq):
     await app.edit_inline_text(inline_message_id, msg)
 
 
-async def pmpermit_func(answers, user_id, victim):
-    if user_id != USERBOT_ID:
-        return
-    caption = f"Hi, I'm {USERBOT_NAME}, What are you here for?, You'll be blocked if you send more than 5 messages."
-    buttons = InlineKeyboard(row_width=2)
-    buttons.add(
-        InlineKeyboardButton(
-            text="To Scam You", callback_data="pmpermit to_scam_you a"
-        ),
-        InlineKeyboardButton(
-            text="For promotion",
-            callback_data="pmpermit to_scam_you a",
-        ),
-        InlineKeyboardButton(text="Approve me", callback_data="pmpermit approve_me a"),
-        InlineKeyboardButton(
-            text="Approve", callback_data=f"pmpermit approve {victim}"
-        ),
-        InlineKeyboardButton(
-            text="Block & Delete",
-            callback_data=f"pmpermit block {victim}",
-        ),
-    )
-    answers.append(
-        InlineQueryResultArticle(
-            title="do_not_click_here",
-            reply_markup=buttons,
-            input_message_content=InputTextMessageContent(caption),
-        )
-    )
-    return answers
+
 
 
 async def ping_func(answers):

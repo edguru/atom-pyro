@@ -24,7 +24,7 @@ SOFTWARE.
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import BOT_ID, SUDOERS, DEVS USERBOT_PREFIX, app2, eor
+from wbb import BOT_ID, SUDOERS, DEVS , app, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils.dbfunctions import add_sudo, get_sudoers, remove_sudo
 
@@ -44,11 +44,11 @@ can even delete your account.
 """
 
 
-@app2.on_message(
-    filters.command("useradd", prefixes=USERBOT_PREFIX)
+@app.on_message(
+    filters.command("useradd")
     & ~filters.forwarded
     & ~filters.via_bot
-    & DEVS
+    & filters.user(DEVS)
 )
 @capture_err
 async def useradd(_, message: Message):
@@ -58,7 +58,7 @@ async def useradd(_, message: Message):
             text="Reply to someone's message to add him to sudoers.",
         )
     user_id = message.reply_to_message.from_user.id
-    umention = (await app2.get_users(user_id)).mention
+    umention = (await app.get_users(user_id)).mention
     sudoers = await get_sudoers()
 
     if user_id in sudoers:
@@ -77,11 +77,11 @@ async def useradd(_, message: Message):
     )
 
 
-@app2.on_message(
-    filters.command("userdel", prefixes=USERBOT_PREFIX)
+@app.on_message(
+    filters.command("userdel")
     & ~filters.forwarded
     & ~filters.via_bot
-    & DEVS
+    & filters.user(DEVS)
 )
 @capture_err
 async def userdel(_, message: Message):
@@ -91,7 +91,7 @@ async def userdel(_, message: Message):
             text="Reply to someone's message to remove him to sudoers.",
         )
     user_id = message.reply_to_message.from_user.id
-    umention = (await app2.get_users(user_id)).mention
+    umention = (await app.get_users(user_id)).mention
 
     if user_id not in await get_sudoers():
         return await eor(message, text=f"{umention} is not in sudoers.")
@@ -107,11 +107,11 @@ async def userdel(_, message: Message):
     )
 
 
-@app2.on_message(
-    filters.command("sudoers", prefixes=USERBOT_PREFIX)
+@app.on_message(
+    filters.command("sudoers")
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 @capture_err
 async def sudoers_list(_, message: Message):
@@ -120,7 +120,7 @@ async def sudoers_list(_, message: Message):
     j = 0
     for user_id in sudoers:
         try:
-            user = await app2.get_users(user_id)
+            user = await app.get_users(user_id)
             user = user.first_name if not user.mention else user.mention
             j += 1
         except Exception:

@@ -3,15 +3,15 @@ from asyncio import sleep
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import SUDOERS , DEVS, USERBOT_PREFIX, app2, eor
+from wbb import SUDOERS , DEVS, app, eor
 from wbb.core.sections import section
 
 
-@app2.on_message(
-    filters.command("parse_preview", prefixes=USERBOT_PREFIX)
+@app.on_message(
+    filters.command("parse_preview")
     & ~filters.forwarded
     & ~filters.via_bot
-    & SUDOERS
+    & filters.user(SUDOERS)
 )
 async def parse(_, message: Message):
     r = message.reply_to_message
@@ -24,7 +24,7 @@ async def parse(_, message: Message):
     if not r.web_page:
         text = r.text or r.caption
         if text:
-            m = await app2.send_message("me", text)
+            m = await app.send_message("me", text)
             await sleep(1)
             await m.delete()
             if m.web_page:
@@ -55,16 +55,16 @@ async def parse(_, message: Message):
 
     if t == "photo":
         media = wpp.photo
-        func = app2.send_photo
+        func = app.send_photo
     elif t == "audio":
         media = wpp.audio
-        func = app2.send_audio
+        func = app.send_audio
     elif t == "video":
         media = wpp.video
-        func = app2.send_video
+        func = app.send_video
     elif t == "document":
         media = wpp.document
-        func = app2.send_document
+        func = app.send_document
     else:
         media = None
         func = None

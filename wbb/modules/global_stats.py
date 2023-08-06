@@ -27,7 +27,7 @@ from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.errors import FloodWait
 
-from wbb import BOT_ID, BOT_NAME,SUDOERS , DEVS, USERBOT_NAME, app, app2
+from wbb import BOT_ID, BOT_NAME,SUDOERS , DEVS, app
 from wbb.core.decorators.errors import capture_err
 from wbb.modules import ALL_MODULES
 from wbb.utils.dbfunctions import (
@@ -46,7 +46,7 @@ from wbb.utils.http import get
 from wbb.utils.inlinefuncs import keywords_list
 
 
-@app.on_message(filters.command("clean_db") & DEVS)
+@app.on_message(filters.command("clean_db") & filters.user(DEVS))
 @capture_err
 async def clean_db(_, message):
     served_chats = [int(i["chat_id"]) for i in (await get_served_chats())]
@@ -78,7 +78,7 @@ async def get_total_users_count():
     return total_count
 
 
-@app.on_message(filters.command("gstats") & SUDOERS)
+@app.on_message(filters.command("gstats") & filters.user(SUDOERS))
 @capture_err
 async def global_stats(_, message):
     m = await app.send_message(
@@ -121,22 +121,6 @@ async def global_stats(_, message):
     rss_count = await get_rss_feeds_count()
     # Modules info
     modules_count = len(ALL_MODULES)
-
-    # Userbot info
-    groups_ub = channels_ub = bots_ub = privates_ub = total_ub = 0
-    async for i in app2.get_dialogs():
-        t = i.chat.type
-        total_ub += 1
-
-        if t in [ChatType.SUPERGROUP, ChatType.GROUP]:
-            groups_ub += 1
-        elif t == ChatType.CHANNEL:
-            channels_ub += 1
-        elif t == ChatType.BOT:
-            bots_ub += 1
-        elif t == ChatType.PRIVATE:
-            privates_ub += 1
-
     msg = f"""
 **Global Stats of {BOT_NAME}**:
     **{modules_count}** Modules Loaded.
@@ -151,11 +135,5 @@ async def global_stats(_, message):
     **{served_users}** Users, Across **{served_chats}** chats.
     **{total_users}** Total users in chats.
 
-**Global Stats of {USERBOT_NAME}**:
-    **{total_ub} Dialogs.**
-    **{groups_ub} Groups Joined.**
-    **{channels_ub} Channels Joined.**
-    **{bots_ub} Bots.**
-    **{privates_ub} Users.**
 """
     await m.edit(msg, disable_web_page_preview=True)
