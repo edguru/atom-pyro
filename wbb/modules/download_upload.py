@@ -30,7 +30,7 @@ from traceback import format_exc
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import DEVS , eor
+from wbb import DEVS , eor , app
 from wbb.core.sections import section
 from wbb.core.tasks import add_task, rm_task
 from wbb.utils.downloader import download
