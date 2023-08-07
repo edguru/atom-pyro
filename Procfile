@@ -1,1 +1,1 @@
-atom : python3 -m wbb
+wbb: python3 -m wbb
