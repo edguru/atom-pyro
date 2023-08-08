@@ -37,19 +37,18 @@ async def paste(_, message: Message):
                 message=reply_message,
                 file_name=TMP_DOWNLOAD_DIRECTORY
             )
-            end = datetime.now()
-            ms = (end - start).seconds
-            h = await message.reply(f"Downloaded to {downloaded_file_name} in {ms} seconds.")
+        end = datetime.now()
+        ms = (end - start).seconds
+        h = await message.reply(f"Downloaded to {downloaded_file_name} in {ms} seconds.")
         if downloaded_file_name.endswith((".webp")):
              resize_image(downloaded_file_name)
-
         try:
-             start = datetime.now()
-             media_urls = upload_file(downloaded_file_name)
+            start = datetime.now()
+            media_urls = upload_file(downloaded_file_name)
         except exceptions.TelegraphException as exc:
-             await h.edit("ERROR: " + str(exc))
-             os.remove(downloaded_file_name)
-             return
+            await h.edit("ERROR: " + str(exc))
+            os.remove(downloaded_file_name)
+            return
         end = datetime.now()
         ms_two = (end - start).seconds
         os.remove(downloaded_file_name)
