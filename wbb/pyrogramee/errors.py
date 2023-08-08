@@ -2,7 +2,7 @@
 import sys
 import traceback
 from functools import wraps
-from wbb import pbot, SUPPORT_CHAT
+from wbb import app, SUPPORT_CHAT
 
 def split_limits(text):
     if len(text) < 2048:
@@ -41,7 +41,7 @@ def capture_err(func):
                 ),
             )
             for x in error_feedback:
-                await pbot.send_message(
+                await app.send_message(
                     LOG_GROUP_ID,
                     x
                 )
