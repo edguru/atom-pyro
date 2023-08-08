@@ -4,10 +4,16 @@ import datetime
 from wbb import app, tgraph
 from wbb.core.decorators.errors import capture_err
 from telegraph import upload_file, exceptions
+from PIL import Image
 
 __MODULE__ = "Telegraph"
 __HELP__ = "/telegraph [Page name]: Paste styled text on telegraph."
 TMP_DOWNLOAD_DIRECTORY = "./"
+
+def resize_image(image):
+    im = Image.open(image)
+    im.save(image, "PNG")
+
 
 @app.on_message(filters.command("telegraph"))
 @capture_err
