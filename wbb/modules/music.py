@@ -11,8 +11,7 @@ from pyrogram.types import Message
 from tswift import Song
 from youtube_dl import YoutubeDL
 from youtubesearchpython import SearchVideos
-
-from atom-pyro.conf import get_str_key
+from wbb.conf import get_str_key
 from atom-pyro.pyrogramee.pluginshelper import get_text, progress
 from atom-pyro import pbot
 
