@@ -30,4 +30,4 @@ pytz
 wget
 youtube_dl
 tswift
-youtubesearchpython
+youtube-search-python
