@@ -42,7 +42,7 @@ def capture_err(func):
             )
             for x in error_feedback:
                 await pbot.send_message(
-                    SUPPORT_CHAT,
+                    LOG_GROUP_ID,
                     x
                 )
             raise err
