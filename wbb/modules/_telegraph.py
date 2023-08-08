@@ -4,7 +4,7 @@ from datetime import datetime
 from telegraph import Telegraph, upload_file, exceptions
 
 telegraph = Telegraph()
-r = telegraph.create_account(short_name=soulmate)
+r = telegraph.create_account(short_name=atom-pyro)
 auth_url = r["auth_url"]
 
 TMP_DOWNLOAD_DIRECTORY = "./"
