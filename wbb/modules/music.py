@@ -11,14 +11,14 @@ from pyrogram.types import Message
 from tswift import Song
 from youtube_dl import YoutubeDL
 from youtubesearchpython import SearchVideos
-from wbb.conf import get_str_key
 from wbb.pyrogramee.pluginshelper import get_text, progress
-from wbb import pbot
-
-GENIUS = get_str_key("GENIUS_API_TOKEN", None)
+from wbb import app
 
 
-@pbot.on_message(filters.command(["vsong", "video"]))
+GENIUS = "kRZ4hxXiDZPazGGPLnRggGB7bTenCJZtpopiBwVCcNYJ2dt1GzPjgDX5bpyxMr4b"
+
+
+@app.on_message(filters.command(["vsong", "video"]))
 async def ytmusic(client, message: Message):
     urlissed = get_text(message)
 
@@ -83,7 +83,7 @@ async def ytmusic(client, message: Message):
             os.remove(files)
 
 
-@pbot.on_message(filters.command(["music", "song"]))
+@app.on_message(filters.command(["music", "song"]))
 async def ytmusic(client, message: Message):
     urlissed = get_text(message)
     if not urlissed:
@@ -156,7 +156,7 @@ async def ytmusic(client, message: Message):
             os.remove(files)
 
 
-@pbot.on_message(filters.command(["deezer", "dsong"]))
+@app.on_message(filters.command(["deezer", "dsong"]))
 async def deezer(client, message: Message):
     pablo = await client.send_message(message.chat.id, "Searching the song")
     sgname = get_text(message)
@@ -205,7 +205,7 @@ def time_to_seconds(time):
 # Lel, Didn't Get Time To Make New One So Used Plugin Made br @mrconfused and @sandy1709 dont edit credits
 
 
-@pbot.on_message(filters.command(["lyric", "lyrics"]))
+@app.on_message(filters.command(["lyric", "lyrics"]))
 async def _(client, message):
     lel = await message.reply("Searching For Lyrics.....")
     query = message.text
@@ -239,7 +239,7 @@ async def _(client, message):
         await lel.edit(reply)  # edit or reply
 
 
-@pbot.on_message(filters.command(["glyric", "glyrics"]))
+@app.on_message(filters.command(["glyric", "glyrics"]))
 async def lyrics(client, message):
 
     if r"-" in message.text:
@@ -253,7 +253,7 @@ async def lyrics(client, message):
 
     if GENIUS is None:
         await message.reply(
-            "`Provide genius access token to config.py or Heroku Config first kthxbye!`"
+            "`Provide genius access token! Contact  Atom Support`"
         )
     else:
         genius = lyricsgenius.Genius(GENIUS)
