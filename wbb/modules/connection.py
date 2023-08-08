@@ -1,10 +1,6 @@
 import time
 import re
 
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update, Bot
-from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
-
 import wbb.modules.sql.connection_sql as sql
 from wbb import dispatcher, DRAGONS, DEV_USERS
 from wbb.modules.helper_funcs import chat_status
