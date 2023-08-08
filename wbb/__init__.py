@@ -128,8 +128,8 @@ BOT_DC_ID = x.dc_id
 
 
 log.info("Initializing Telegraph client")
-telegraph = Telegraph(domain="graph.org")
-telegraph.create_account(short_name=BOT_USERNAME)
+tgraph = Telegraph(domain="graph.org")
+tgraph.create_account(short_name=BOT_USERNAME)
 
 
 async def eor(msg: Message, **kwargs):
