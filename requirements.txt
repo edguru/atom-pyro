@@ -6,6 +6,7 @@ dnspython==2.3.0
 future
 googletrans==4.0.0-rc1
 motor
+lyricsgenius
 pillow
 psutil
 pykeyboard
@@ -26,3 +27,7 @@ img2pdf
 telegraph
 pytube
 pytz
+wget
+youtube_dl
+tswift
+youtubesearchpython
