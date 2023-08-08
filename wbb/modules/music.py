@@ -12,8 +12,8 @@ from tswift import Song
 from youtube_dl import YoutubeDL
 from youtubesearchpython import SearchVideos
 from wbb.conf import get_str_key
-from atom-pyro.pyrogramee.pluginshelper import get_text, progress
-from atom-pyro import pbot
+from wbb.pyrogramee.pluginshelper import get_text, progress
+from wbb import pbot
 
 GENIUS = get_str_key("GENIUS_API_TOKEN", None)
 
