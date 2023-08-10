@@ -3,9 +3,10 @@
 import sys
 import traceback
 from functools import wraps
-
+from wbb.utils.dbfunctions import disabledb
 from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
-
+from pyrogram.types import Message
+from wbb import BOT_ID, SUDOERS, DEVS, app, log
 from wbb import LOG_GROUP_ID, app
 
 
@@ -27,6 +28,13 @@ def split_limits(text):
 
     return result
 
+async def _get_discmd(chat_id: int)-> Dict[str, int]:
+    _cmd = await disabledb.find_one({"chat_id": chat_id})
+    if not _notes:
+        return {}
+    return _notes["cmds"]
+
+
 
 def capture_err(func):
     @wraps(func)
@@ -36,6 +44,10 @@ def capture_err(func):
         except ChatWriteForbidden:
             await app.leave_chat(message.chat.id)
             return
+        chatid= message.chat.id
+        if message.command[0] in await _get_discmd(chatid):
+            return await message.reply_text("This command is disabled in this chat")
+            
         except Exception as err:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             errors = traceback.format_exception(
