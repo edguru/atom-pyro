@@ -34,15 +34,14 @@ def split_limits(text):
 def capture_err(func):
     @wraps(func)
     async def capture(client, message, *args, **kwargs):
+        if message.command[0] in await get_discmd(chatid):
+            return await message.reply_text("This command is disabled in this chat")
         try:
             return await func(client, message, *args, **kwargs)
         except ChatWriteForbidden:
             await app.leave_chat(message.chat.id)
             return
-        chatid= message.chat.id
-        if message.command[0] in await get_discmd(chatid):
-            return await message.reply_text("This command is disabled in this chat")
-            
+        chatid= message.chat.id    
         except Exception as err:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             errors = traceback.format_exception(
