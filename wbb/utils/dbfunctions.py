@@ -71,10 +71,11 @@ def str_to_obj(string: str):
 
 
 async def get_discmd(chat_id: int) -> List[str]:
-    _cmds = disabledb.find_one({"chat_id": chat_id})
+    _cmds = await disabledb.find_one({"chat_id": chat_id})
     if not _cmds:
         return []
-    return _cmds["cmds"]
+    l2=_cmds["cmds"]
+    return l2
 
 
 async def save_discmd(chat_id: int, word: str):

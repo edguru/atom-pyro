@@ -35,8 +35,10 @@ def capture_err(func):
     @wraps(func)
     async def capture(client, message, *args, **kwargs):
         chatid= message.chat.id  
-        if message.command[0] in await get_discmd(chatid):
-            return await message.reply_text("This command is disabled in this chat")
+        l1=await get_discmd(chatid)
+        if l1 is not None and message.command is not None:
+            if message.command[0] in l1 and message.user.id not in SUDOERS:
+                 return await message.reply_text("This command is disabled in this chat")
         try:
             return await func(client, message, *args, **kwargs)
         except ChatWriteForbidden:
