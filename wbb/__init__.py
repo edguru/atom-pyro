@@ -130,7 +130,7 @@ BOT_DC_ID = x.dc_id
 
 
 log.info("Initializing Telegraph client")
-tgraph = Telegraph(domain="graph.org")
+tgraph = Telegraph()
 tgraph.create_account(short_name=BOT_USERNAME)
 
 
