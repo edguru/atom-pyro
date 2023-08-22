@@ -69,6 +69,8 @@ __MODULE__ = "Greetings"
 __HELP__ = """
 /captcha [ENABLE|DISABLE] - Enable/Disable captcha.
 
+/welcome [ENABLE|DISABLE] - Enable/Disable welcome messages.
+
 /set_welcome - Reply this to a message containing correct
 format for a welcome message, check end of this message.
 
