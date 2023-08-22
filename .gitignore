@@ -1,3 +1,4 @@
+config.env
 whisper.py
 mirror.py
 dump

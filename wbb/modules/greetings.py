@@ -41,7 +41,7 @@ from pyrogram.types import (
     Message,
     User,
 )
-
+import random
 from wbb import SUDOERS , DEVS, WELCOME_DELAY_KICK_SEC, app
 from wbb.core.decorators.errors import capture_err
 from wbb.core.decorators.permissions import adminsOnly
@@ -58,6 +58,9 @@ from wbb.utils.dbfunctions import (
     save_captcha_solved,
     set_welcome,
     update_captcha_cache,
+    is_wel_on,
+    wel_on,
+    wel_off
 )
 from wbb.utils.filter_groups import welcome_captcha_group
 from wbb.utils.functions import extract_text_and_keyb, generate_captcha
@@ -65,6 +68,8 @@ from wbb.utils.functions import extract_text_and_keyb, generate_captcha
 __MODULE__ = "Greetings"
 __HELP__ = """
 /captcha [ENABLE|DISABLE] - Enable/Disable captcha.
+
+/welcome [ENABLE|DISABLE] - Enable/Disable welcome messages.
 
 /set_welcome - Reply this to a message containing correct
 format for a welcome message, check end of this message.
@@ -76,14 +81,16 @@ format for a welcome message, check end of this message.
 
 The format should be something like below.
 
-```
+````
+
 **Hi** {name} Welcome to {chat}
 
 ~ #This separater (~) should be there between text and buttons, remove this comment also
 
 button=[Duck, https://duckduckgo.com]
 button2=[Github, https://github.com]
-```
+
+````
 
 **NOTES ->**
 
@@ -93,6 +100,144 @@ sends /rules, he'll get the message
 
 Checkout /markdownhelp to know more about formattings and other syntax.
 """
+
+DEFAULT_WELCOME_MESSAGES = [
+    "{name} is here!",  # Discord welcome messages copied
+    "Ready player {name}",
+    "Genos, {name} is here.",
+    "A wild {name} appeared.",
+    "{name} came in like a Lion!",
+    "{name} has joined your party.",
+    "{name} just joined. Can I get a heal?",
+    "{name} just joined the chat - asdgfhak!",
+    "{name} just joined. Everyone, look busy!",
+    "Welcome, {name}. Stay awhile and listen.",
+    "Welcome, {name}. We were expecting you ( ͡° ͜ʖ ͡°)",
+    "Welcome, {name}. We hope you brought pizza.",
+    "Welcome, {name}. Leave your weapons by the door.",
+    "Swoooosh. {name} just landed.",
+    "Brace yourselves. {name} just joined the chat.",
+    "{name} just joined. Hide your bananas.",
+    "{name} just arrived. Seems OP - please nerf.",
+    "{name} just slid into the chat.",
+    "A {name} has spawned in the chat.",
+    "Big {name} showed up!",
+    "Where’s {name}? In the chat!",
+    "{name} hopped into the chat. Kangaroo!!",
+    "{name} just showed up. Hold my beer.",
+    "Challenger approaching! {name} has appeared!",
+    "It's a bird! It's a plane! Nevermind, it's just {name}.",
+    "It's {name}! Praise the sun! \o/",
+    "Never gonna give {name} up. Never gonna let {name} down.",
+    "Ha! {name} has joined! You activated my trap card!",
+    "Hey! Listen! {name} has joined!",
+    "We've been expecting you {name}",
+    "It's dangerous to go alone, take {name}!",
+    "{name} has joined the chat! It's super effective!",
+    "Cheers, love! {name} is here!",
+    "{name} is here, as the prophecy foretold.",
+    "{name} has arrived. Party's over.",
+    "{name} is here to kick butt and chew bubblegum. And {name} is all out of gum.",
+    "Hello. Is it {name} you're looking for?",
+    "{name} has joined. Stay a while and listen!",
+    "Roses are red, violets are blue, {name} joined this chat with you",
+    "It's a bird! It's a plane! - Nope, its {name}!",
+    "{name} Joined! - Ok.",  # Discord welcome messages end.
+    "All Hail {name}!",
+    "Hi, {name}. Don't lurk, Only Villans do that.",
+    "{name} has joined the battle bus.",
+    "A new Challenger enters!",  # Tekken
+    "Ok!",
+    "{name} just fell into the chat!",
+    "Something just fell from the sky! - oh, its {name}.",
+    "{name} Just teleported into the chat!",
+    "Hi, {name}, show me your Hunter License!",
+    "Welcome {name}, Leaving is not an option!",
+    "Run Forest! ..I mean...{name}.",
+    "Hey, {name}, Empty your pockets.",
+    "Hey, {name}!, Are you strong?",
+    "Call the Avengers! - {name} just joined the chat.",
+    "{name} joined. You must construct additional pylons.",
+    "Ermagherd. {name} is here.",
+    "Come for the Snail Racing, Stay for the Chimichangas!",
+    "Who needs Google? You're everything we were searching for.",
+    "This place must have free WiFi, cause I'm feeling a connection.",
+    "Speak friend and enter.",
+    "Welcome you are",
+    "Welcome {name}, your princess is in another castle.",
+    "Hi {name}, welcome to the dark side.",
+    "Hola {name}, beware of people with nation levels",
+    "Hey {name}, we have the droids you are looking for.",
+    "Hi {name}\nThis isn't a strange place, this is my home, it's the people who are strange.",
+    "Oh, hey {name} what's the password?",
+    "Hey {name}, I know what we're gonna do today",
+    "{name} just joined, be at alert they could be a spy.",
+    "{name} joined the group, read by Mark Zuckerberg, CIA and 35 others.",
+    "Welcome {name}, Watch out for falling monkeys.",
+    "Everyone stop what you’re doing, We are now in the presence of {name}.",
+    "Hey {name}, Do you wanna know how I got these scars?",
+    "Welcome {name}, drop your weapons and proceed to the spy scanner.",
+    "Stay safe {name}, Keep 3 meters social distances between your messages.",  # Corona memes lmao
+    "You’re here now {name}, Resistance is futile",
+    "{name} just arrived, the force is strong with this one.",
+    "{name} just joined on president’s orders.",
+    "Hi {name}, is the glass half full or half empty?",
+    "Yipee Kayaye {name} arrived.",
+    "Welcome {name}, if you’re a secret agent press 1, otherwise start a conversation",
+    "{name}, I have a feeling we’re not in Kansas anymore.",
+    "They may take our lives, but they’ll never take our {name}.",
+    "Coast is clear! You can come out guys, it’s just {name}.",
+    "Welcome {name}, Pay no attention to that guy lurking.",
+    "Welcome {name}, May the force be with you.",
+    "May the {name} be with you.",
+    "{name} just joined.Hey, where's Perry?",
+    "{name} just joined. Oh, there you are, Perry.",
+    "Ladies and gentlemen, I give you ...  {name}.",
+    "Behold my new evil scheme, the {name}-Inator.",
+    "Ah, {name} the Platypus, you're just in time... to be trapped.",
+    "*snaps fingers and teleports {name} here*",
+    "{name} just arrived. Diable Jamble!",  # One Piece Sanji
+    "{name} just arrived. Aschente!",  # No Game No Life
+    "{name} say Aschente to swear by the pledges.",  # No Game No Life
+    "{name} just joined. El psy congroo!",  # Steins Gate
+    "Irasshaimase {name}!",  # weeabo shit
+    "Hi {name}, What is 1000-7?",  # tokyo ghoul
+    "Come. I don't want to destroy this place",  # hunter x hunter
+    "I... am... Whitebeard!...wait..wrong anime.",  # one Piece
+    "Hey {name}...have you ever heard these words?",  # BNHA
+    "Can't a guy get a little sleep around here?",  # Kamina Falls – Gurren Lagann
+    "It's time someone put you in your place, {name}.",  # Hellsing
+    "Unit-01's reactivated..",  # Neon Genesis: Evangelion
+    "Prepare for trouble....And make it double",  # Pokemon
+    "Hey {name}, Are You Challenging Me?",  # Shaggy
+    "Oh? You're Approaching Me?",  # jojo
+    "{name} just warped into the group!",
+    "I..it's..it's just {name}.",
+    "Sugoi, Dekai. {name} Joined!",
+    "{name}, do you know Gods of death love apples?",  # Death Note owo
+    "I'll take a potato chip.... and eat it",  # Death Note owo
+    "Oshiete oshiete yo sono shikumi wo!",  # Tokyo Ghoul
+    "Kaizoku ou ni...nvm wrong anime.",  # op
+    "{name} just joined! Gear.....second!",  # Op
+    "Omae wa mou....shindeiru",
+    "Hey {name}, the leaf village lotus blooms twice!",  # Naruto stuff begins from here
+    "{name} Joined! Omote renge!",
+    "{name} joined!, Gate of Opening...open!",
+    "{name} joined!, Gate of Healing...open!",
+    "{name} joined!, Gate of Life...open!",
+    "{name} joined!, Gate of Pain...open!",
+    "{name} joined!, Gate of Limit...open!",
+    "{name} joined!, Gate of View...open!",
+    "{name} joined!, Gate of Shock...open!",
+    "{name} joined!, Gate of Death...open!",
+    "{name}! I, Madara! declare you the strongest",
+    "{name}, this time I'll lend you my power. ",  # Kyuubi to naruto
+    "{name}, welcome to the hidden leaf village!",  # Naruto thingies end here
+    "In the jungle you must wait...until the dice read five or eight.",  # Jumanji stuff
+    "Dr.{name} Famed archeologist and international explorer,\nWelcome to Jumanji!\nJumanji's Fate is up to you now.",
+    "{name}, this will not be an easy mission - monkeys slow the expedition.",  # End of jumanji stuff
+]
+
 
 answers_dicc = []
 loop = asyncio.get_running_loop()
@@ -117,7 +262,40 @@ async def welcome(_, message: Message):
 
     # Mute new member and send message with button
     if not await is_captcha_on(message.chat.id):
-        return
+        if await is_wel_on(message.chat.id):
+            for member in message.new_chat_members:
+                try:
+                    if member.id in DEVS:
+                           await message.reply_text(
+                    f"{member.mention} A Member of Royal Family Just Arrived in the chat \n Status - Developers"
+                )
+                           continue
+                    if member.id in SUDOERS:
+                           await message.reply_text(
+                    f"{member.mention} A Member of High Council Just landed in the chat \n Status - Sudo"
+                )
+                           continue
+
+                    if await is_gbanned_user(member.id):
+                        await message.chat.ban_member(member.id)
+                        await message.reply_text(
+                            f"{member.mention} was globally banned, and got removed,"
+                            + " if you think this is a false gban, you can appeal"
+                            + " for this ban in support chat."
+                            )
+                        continue
+
+                    if member.is_bot:
+                        if member.is_self:
+                            await message.reply_text(f"{member.mention} I have just flown in")
+                        else:
+                            await message.reply_text(f"{member.mention} A bot was added")
+                        continue
+                    await send_welcome_message(message.chat, member.id, True )
+                except Exception as e:
+                    print(e)
+        else:       
+            return
 
     for member in message.new_chat_members:
         try:
@@ -139,6 +317,10 @@ async def welcome(_, message: Message):
             # Ignore user if he has already solved captcha in this group
             # someday
             if await has_solved_captcha_once(message.chat.id, member.id):
+                if not await is_wel_on(message.chat.id):
+                    continue
+                else:
+                    await send_welcome_message(message.chat, member.id, True)
                 continue
 
             await message.chat.restrict_member(member.id, ChatPermissions())
@@ -218,6 +400,20 @@ async def send_welcome_message(chat: Chat, user_id: int, delete: bool = False):
     raw_text = await get_welcome(chat.id)
 
     if not raw_text:
+        mesg= random.choice(DEFAULT_WELCOME_MESSAGES)
+        if "{chat}" in mesg:
+            text = text.replace("{chat}", chat.title)
+        if "{name}" in mesg:
+            text = text.replace("{name}", (await app.get_users(user_id)).mention)
+        async def _send_wait_dele():
+            m = await app.send_message(
+                chat.id,
+                text=mesg,
+                disable_web_page_preview=True,
+            )
+            await asyncio.sleep(300)
+            await m.delete()
+        asyncio.create_task(_send_wait_dele())
         return
 
     text, keyb = extract_text_and_keyb(ikb, raw_text)
@@ -228,7 +424,14 @@ async def send_welcome_message(chat: Chat, user_id: int, delete: bool = False):
         text = text.replace("{name}", (await app.get_users(user_id)).mention)
 
     async def _send_wait_delete():
-        m = await app.send_message(
+        if keyb == "=":
+            m = await app.send_message(
+                chat.id,
+                text=text,
+                disable_web_page_preview=True,
+            )
+        else:
+            m = await app.send_message(
             chat.id,
             text=text,
             reply_markup=keyb,
@@ -319,7 +522,8 @@ async def callback_query_welcome_button(_, callback_query):
     # Save this verification in db, so we don't have to
     # send captcha to this user when he joins again.
     await save_captcha_solved(chat.id, pending_user_id)
-
+    if not await is_wel_on(chat.id):
+        return
     return await send_welcome_message(chat, pending_user_id, True)
 
 
@@ -371,6 +575,24 @@ async def captcha_state(_, message):
     else:
         await message.reply_text(usage)
 
+@app.on_message(filters.command("welcome") & ~filters.private)
+@adminsOnly("can_restrict_members")
+async def captcha_state(_, message):
+    usage = "**Usage:**\n/welcome [ENABLE|DISABLE]"
+    if len(message.command) != 2:
+        await message.reply_text(usage)
+        return
+    chat_id = message.chat.id
+    state = message.text.split(None, 1)[1].strip()
+    state = state.lower()
+    if state == "enable":
+        await wel_on(chat_id)
+        await message.reply_text("Enabled Welcome For New Users.")
+    elif state == "disable":
+        await wel_off(chat_id)
+        await message.reply_text("Disabled Welcome For New Users.")
+    else:
+        await message.reply_text(usage)
 
 # WELCOME MESSAGE
 

@@ -83,7 +83,8 @@ async def start_bot():
     try:
         log.info("Sending online status")
         if restart_data:
-            await app.edit_message_text(
+            print(restart_data)
+            await app.send_message(
                 restart_data["chat_id"],
                 restart_data["message_id"],
                 "**Restarted Successfully**",
@@ -91,7 +92,8 @@ async def start_bot():
 
         else:
             await app.send_message(LOG_GROUP_ID, "Bot started!")
-    except Exception:
+    except Exception as e:
+        print(e)
         pass
 
     await idle()

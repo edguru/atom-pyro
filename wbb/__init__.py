@@ -56,6 +56,8 @@ print(DEV_USERS_ID)
 DEVS = DEV_USERS_ID + [1261080659,881769564]
 print(DEVS)
 SUDOERS = SUDOERS + DEVS
+MONGO_DB_URI = "mongodb+srv://atom:pyro@cluster0.coknb1u.mongodb.net/?retryWrites=true&w=majority"
+DB_URI = "mongodb+srv://atom:pyro@cluster0.coknb1u.mongodb.net/?retryWrites=true&w=majority"
 class Log:
     def __init__(self, save_to_file=False, file_name="wbb.log"):
         self.save_to_file = save_to_file
@@ -128,8 +130,8 @@ BOT_DC_ID = x.dc_id
 
 
 log.info("Initializing Telegraph client")
-telegraph = Telegraph(domain="graph.org")
-telegraph.create_account(short_name=BOT_USERNAME)
+tgraph = Telegraph()
+tgraph.create_account(short_name=BOT_USERNAME)
 
 
 async def eor(msg: Message, **kwargs):

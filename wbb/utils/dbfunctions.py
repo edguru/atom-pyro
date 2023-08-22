@@ -48,6 +48,7 @@ captcha_cachedb = db.captcha_cache
 antiservicedb = db.antiservice
 pmpermitdb = db.pmpermit
 welcomedb = db.welcome_text
+weldb = db.welcomeon
 blacklist_filtersdb = db.blacklistFilters
 pipesdb = db.pipes
 sudoersdb = db.sudoers
@@ -56,7 +57,7 @@ restart_stagedb = db.restart_stage
 flood_toggle_db = db.flood_toggle
 rssdb = db.rss
 chatbotdb = db.chatbot
-
+disabledb = db.disable
 
 def obj_to_str(obj):
     if not obj:
@@ -68,6 +69,41 @@ def obj_to_str(obj):
 def str_to_obj(string: str):
     obj = pickle.loads(codecs.decode(string.encode(), "base64"))
     return obj
+
+
+async def get_discmd(chat_id: int) -> List[str]:
+    _cmds = await disabledb.find_one({"chat_id": chat_id})
+    if not _cmds:
+        return []
+    l2=_cmds["cmds"]
+    return l2
+
+
+async def save_discmd(chat_id: int, word: str):
+    word = word.lower().strip()
+    _cmds = await get_discmd(chat_id)
+    _cmds.append(word)
+    await disabledb.update_one(
+        {"chat_id": chat_id},
+        {"$set": {"cmds": _filters}},
+        upsert=True,
+    )
+
+
+async def delete_discmd(chat_id: int, word: str) -> bool:
+    cmdd = await get_discmd(chat_id)
+    word = word.lower().strip()
+    if word in cmdd:
+        cmdd.remove(word)
+        await disabledb.update_one(
+            {"chat_id": chat_id},
+            {"$set": {"cmds": filtersd}},
+            upsert=True,
+        )
+        return True
+    return False
+
+
 
 
 async def get_notes_count() -> dict:
@@ -101,7 +137,13 @@ async def get_note(chat_id: int, name: str) -> Union[bool, dict]:
         return _notes[name]
     return False
 
-
+async def save_cmd(chat_id: int, name: str):
+    return await disabledb.update_one(
+        {"chat_id": chat_id},
+        {"$set": {"cmd": user_id}},
+        upsert=True,
+    )
+    
 async def save_note(chat_id: int, name: str, note: dict):
     name = name.lower().strip()
     _notes = await _get_notes(chat_id)
@@ -435,6 +477,26 @@ async def captcha_off(chat_id: int):
     if not is_captcha:
         return
     return await captchadb.insert_one({"chat_id": chat_id})
+
+async def is_wel_on(chat_id: int) -> bool:
+    chat = await weldb.find_one({"chat_id": chat_id})
+    if not chat:
+        return True
+    return False
+
+
+async def wel_on(chat_id: int):
+    is_captcha = await is_wel_on(chat_id)
+    if is_captcha:
+        return
+    return await weldb.delete_one({"chat_id": chat_id})
+
+
+async def wel_off(chat_id: int):
+    is_captcha = await is_wel_on(chat_id)
+    if not is_captcha:
+        return
+    return await weldb.insert_one({"chat_id": chat_id})
 
 
 async def has_solved_captcha_once(chat_id: int, user_id: int):

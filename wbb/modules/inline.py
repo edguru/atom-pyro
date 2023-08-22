@@ -41,7 +41,7 @@ async def inline_query_handler(client, query):
             answerss = await inline_help_func(__HELP__)
             await client.answer_inline_query(query.id, results=answerss, cache_time=10)
         elif text.split()[0] == "alive":
-            answerss = await alive_function(answers)
+            answerss = await alive_function(answers) 
             await client.answer_inline_query(query.id, results=answerss, cache_time=10)
         elif text.split()[0] == "google":
             if len(text.split()) < 2:
@@ -57,30 +57,11 @@ async def inline_query_handler(client, query):
                 query.id,
                 results=answerss,
             )
-        elif text.split()[0] == "search":
-            if len(text.split()) < 2:
-                return await client.answer_inline_query(
-                    query.id,
-                    results=answers,
-                    switch_pm_text="Global Message Search. | search [QUERY]",
-                    switch_pm_parameter="inline",
-                )
-            user_id = query.from_user.id
-            tex = text.split(None, 1)[1].strip()
-            answerss = await tg_search_func(answers, tex, user_id)
-            await client.answer_inline_query(query.id, results=answerss, cache_time=2)
-
         elif text.split()[0] == "speedtest":
             answerss = await speedtest_init(query)
             return await client.answer_inline_query(
                 query.id, results=answerss, cache_time=2
             )
-
-        elif text.split()[0] == "pmpermit":
-            user_id = query.from_user.id
-            victim = text.split()[1]
-            answerss = await pmpermit_func(answers, user_id, victim)
-            await client.answer_inline_query(query.id, results=answerss, cache_time=2)
 
         elif text.split()[0] == "ping":
             answerss = await ping_func(answers)
@@ -97,30 +78,10 @@ async def inline_query_handler(client, query):
             tex = text.split()[1].strip()
             answerss = await info_inline_func(answers, tex)
             await client.answer_inline_query(query.id, results=answerss, cache_time=2)
-
-        elif text.split()[0] == "image":
-            if len(text.split()) < 2:
-                return await client.answer_inline_query(
-                    query.id,
-                    results=answers,
-                    is_gallery=True,
-                    switch_pm_text="Image Search | image [QUERY]",
-                    switch_pm_parameter="inline",
-                )
-            tex = text.split(None, 1)[1].strip()
-            answerss = await image_func(answers, tex)
-            await client.answer_inline_query(
-                query.id, results=answerss, cache_time=3600
-            )
-
-        elif text.split()[0] == "exec":
-            await execute_code(query)
-
+        
         elif text.strip() == "tasks":
             user_id = query.from_user.id
             answerss = await task_inline_func(user_id)
             await client.answer_inline_query(query.id, results=answerss, cache_time=1)
-
     except Exception as e:
-        e = traceback.format_exc()
-        print(e, " InLine")
+        print(e)

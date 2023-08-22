@@ -60,23 +60,10 @@ from wbb.utils.functions import test_speedtest
 from wbb.utils.pastebin import paste
 
 keywords_list = [
-    "image",
-    "wall",
-    "tmdb",
-    "lyrics",
-    "exec",
     "speedtest",
-    "search",
     "ping",
-    "tr",
-    "ud",
-    "yt",
     "info",
     "google",
-    "torrent",
-    "wiki",
-    "music",
-    "ytmusic",
 ]
 
 
@@ -170,71 +157,6 @@ async def google_search_func(answers, text):
 
 
 
-
-
-async def tg_search_func(answers, text, user_id):
-    if user_id not in SUDOERS:
-        msg = "**ERROR**\n__THIS FEATURE IS ONLY FOR SUDO USERS__"
-        answers.append(
-            InlineQueryResultArticle(
-                title="ERROR",
-                description="THIS FEATURE IS ONLY FOR SUDO USERS",
-                input_message_content=InputTextMessageContent(msg),
-            )
-        )
-        return answers
-    if str(text)[-1] != ":":
-        msg = "**ERROR**\n__Put A ':' After The Text To Search__"
-        answers.append(
-            InlineQueryResultArticle(
-                title="ERROR",
-                description="Put A ':' After The Text To Search",
-                input_message_content=InputTextMessageContent(msg),
-            )
-        )
-
-        return answers
-    text = text[0:-1]
-    async for message in app.search_global(text, limit=49):
-        buttons = InlineKeyboard(row_width=2)
-        buttons.add(
-            InlineKeyboardButton(
-                text="Origin",
-                url=message.link if message.link else "https://t.me/telegram",
-            ),
-            InlineKeyboardButton(
-                text="Search again",
-                switch_inline_query_current_chat="search",
-            ),
-        )
-        name = (
-            message.from_user.first_name if message.from_user.first_name else "NO NAME"
-        )
-        caption = f"""
-**Query:** {text}
-**Name:** {str(name)} [`{message.from_user.id}`]
-**Chat:** {str(message.chat.title)} [`{message.chat.id}`]
-**Date:** {ctime(message.date)}
-**Text:** >>
-
-{message.text.markdown if message.text else message.caption if message.caption else '[NO_TEXT]'}
-"""
-        result = InlineQueryResultArticle(
-            title=name,
-            description=message.text if message.text else "[NO_TEXT]",
-            reply_markup=buttons,
-            input_message_content=InputTextMessageContent(
-                caption, disable_web_page_preview=True
-            ),
-        )
-        answers.append(result)
-    return answers
-
-
-
-
-
-
 async def speedtest_init(query):
     answers = []
     user_id = query.from_user.id
@@ -266,13 +188,14 @@ async def speedtest_init(query):
 
 @app.on_callback_query(filters.regex("test_speedtest"))
 async def test_speedtest_cq(_, cq):
-    if cq.from_user.id not in SUDOERS:
-        return await cq.answer("This Isn't For You!")
-    inline_message_id = cq.inline_message_id
-    await app.edit_inline_text(inline_message_id, "**Testing**")
-    loop = asyncio.get_running_loop()
-    download, upload, info = await loop.run_in_executor(None, test_speedtest)
-    msg = f"""
+    try:
+        if cq.from_user.id not in SUDOERS:
+          return await cq.answer("This Isn't For You!")
+        inline_message_id = cq.inline_message_id
+        await app.edit_inline_text(inline_message_id, "**Testing**")
+        loop = asyncio.get_running_loop()
+        download, upload, info = await loop.run_in_executor(None, test_speedtest)
+        msg = f"""
 **Download:** `{download}`
 **Upload:** `{upload}`
 **Latency:** `{info['latency']} ms`
@@ -280,7 +203,10 @@ async def test_speedtest_cq(_, cq):
 **Latitude:** `{info['lat']}`
 **Longitude:** `{info['lon']}`
 """
-    await app.edit_inline_text(inline_message_id, msg)
+        await app.edit_inline_text(inline_message_id, msg)
+    except Exception as e:
+         await app.edit_inline_text(inline_message_id,e)
+   
 
 
 
