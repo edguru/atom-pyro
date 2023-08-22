@@ -293,24 +293,29 @@ def extract_text_and_keyb(ikb, text: str, row_width: int = 2):
     keyboard = {}
     try:
         text = text.strip()
-        if text.startswith("`"):
+        if text.startswith("'"):
             text = text[1:]
-        if text.endswith("`"):
+        if text.endswith("'"):
             text = text[:-1]
+        print(text)
+        if "~" in text:
+            text, keyb = text.split("~")
+            keyb = findall(r"\[.+\,.+\]", keyb)
+            print(keyb)
+            for btn_str in keyb:
+                btn_str = re_sub(r"[\[\]]", "", btn_str)
+                btn_str = btn_str.split(",")
+                btn_txt, btn_url = btn_str[0], btn_str[1].strip()
 
-        text, keyb = text.split("~")
-
-        keyb = findall(r"\[.+\,.+\]", keyb)
-        for btn_str in keyb:
-            btn_str = re_sub(r"[\[\]]", "", btn_str)
-            btn_str = btn_str.split(",")
-            btn_txt, btn_url = btn_str[0], btn_str[1].strip()
-
-            if not get_urls_from_text(btn_url):
-                continue
-            keyboard[btn_txt] = btn_url
-        keyboard = ikb(keyboard, row_width)
-    except Exception:
+                if not get_urls_from_text(btn_url):
+                    continue
+                keyboard[btn_txt] = btn_url
+            keyboard = ikb(keyboard, row_width)
+        else :
+            text = text
+            keyboard = "="
+    except Exception as e:
+        print(e)
         return
     return text, keyboard
 

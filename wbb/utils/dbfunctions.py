@@ -48,6 +48,7 @@ captcha_cachedb = db.captcha_cache
 antiservicedb = db.antiservice
 pmpermitdb = db.pmpermit
 welcomedb = db.welcome_text
+weldb = db.welcomeon
 blacklist_filtersdb = db.blacklistFilters
 pipesdb = db.pipes
 sudoersdb = db.sudoers
@@ -476,6 +477,26 @@ async def captcha_off(chat_id: int):
     if not is_captcha:
         return
     return await captchadb.insert_one({"chat_id": chat_id})
+
+async def is_wel_on(chat_id: int) -> bool:
+    chat = await weldb.find_one({"chat_id": chat_id})
+    if not chat:
+        return True
+    return False
+
+
+async def wel_on(chat_id: int):
+    is_captcha = await is_wel_on(chat_id)
+    if is_captcha:
+        return
+    return await weldb.delete_one({"chat_id": chat_id})
+
+
+async def wel_off(chat_id: int):
+    is_captcha = await is_wel_on(chat_id)
+    if not is_captcha:
+        return
+    return await weldb.insert_one({"chat_id": chat_id})
 
 
 async def has_solved_captcha_once(chat_id: int, user_id: int):
