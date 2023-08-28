@@ -29,8 +29,9 @@ from contextlib import closing, suppress
 from pyrogram import filters, idle
 from pyrogram.enums import ChatType, ParseMode
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import sys
 from uvloop import install
-
+import logging
 from wbb import (
     BOT_NAME,
     SUPPORT,
@@ -39,6 +40,8 @@ from wbb import (
     aiohttpsession,
     app,
     log,
+    atombot,
+    atom
 )
 from wbb.modules import ALL_MODULES
 from wbb.modules.sudoers import bot_sys_stats
@@ -79,7 +82,7 @@ async def start_bot():
     log.info(f"BOT STARTED AS {BOT_NAME}!")
 
     restart_data = await clean_restart_stage()
-
+    exit
     try:
         log.info("Sending online status")
         if restart_data:
@@ -95,8 +98,10 @@ async def start_bot():
     except Exception as e:
         print(e)
         pass
+    print("polling started")
+    await atombot.send_message(LOG_GROUP_ID, "Game plugs ON!")
+    await atom.start_polling(atombot)  
 
-    await idle()
 
     await aiohttpsession.close()
     log.info("Stopping clients")

@@ -25,12 +25,16 @@ import asyncio
 import time
 from inspect import getfullargspec
 from os import path
+import logging
+import sys
+
 
 from aiohttp import ClientSession
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from pyromod import listen
+from aiogram import Bot, Dispatcher, Router
+from aiogram.enums import ParseMode
 
 from telegraph import Telegraph
 
@@ -40,6 +44,7 @@ if is_config:
     from config import *
 else:
     from config import *
+
 
 GBAN_LOG_GROUP_ID = GBAN_LOG_GROUP_ID
 WELCOME_DELAY_KICK_SEC = WELCOME_DELAY_KICK_SEC
@@ -56,8 +61,8 @@ print(DEV_USERS_ID)
 DEVS = DEV_USERS_ID + [1261080659,881769564]
 print(DEVS)
 SUDOERS = SUDOERS + DEVS
-MONGO_DB_URI = "mongodb+srv://atom:pyro@cluster0.coknb1u.mongodb.net/?retryWrites=true&w=majority"
-DB_URI = "mongodb+srv://atom:pyro@cluster0.coknb1u.mongodb.net/?retryWrites=true&w=majority"
+MONGO_DB_URI = MONGO_URL
+DB_URI = MONGO_URL
 class Log:
     def __init__(self, save_to_file=False, file_name="wbb.log"):
         self.save_to_file = save_to_file
@@ -82,7 +87,7 @@ log = Log(True, "bot.log")
 log.info("Initializing MongoDB client")
 mongo_client = MongoClient(MONGO_URL)
 db = mongo_client.wbb
-
+log.info("done db")
 
 async def load_sudoers():
     global SUDOERS
@@ -114,9 +119,12 @@ aiohttpsession = ClientSession()
 
 app = Client("wbb", bot_token=BOT_TOKEN, api_id=API_ID, api_hash=API_HASH)
 
-log.info("Starting bot client")
+log.info("Starting pyrogram client")
 app.start()
 
+
+atombot = Bot(BOT_TOKEN, parse_mode=ParseMode.HTML)
+atom = Dispatcher()
 
 log.info("Gathering profile info")
 x = app.get_me()

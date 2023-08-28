@@ -25,14 +25,28 @@ SOFTWARE.
 
 import traceback
 
-from wbb import app
+from wbb import app, LOG_GROUP_ID, atom, atombot
 from wbb.utils.inlinefuncs import *
-
+from pyrogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineQueryResultArticle,
+    InlineQueryResultPhoto,
+    InputTextMessageContent,
+    InlineQueryResultCachedDocument,
+)
+from pykeyboard import InlineKeyboard
 __MODULE__ = "Inline"
 __HELP__ = """See inline for help related to inline"""
 
 
-@app.on_inline_query()
+
+
+
+
+
+
+@app.on_inline_query(group=100)
 async def inline_query_handler(client, query):
     try:
         text = query.query.strip().lower()
@@ -84,4 +98,4 @@ async def inline_query_handler(client, query):
             answerss = await task_inline_func(user_id)
             await client.answer_inline_query(query.id, results=answerss, cache_time=1)
     except Exception as e:
-        print(e)
+        await app.send_message(chat_id= LOG_GROUP_ID, text = e)
